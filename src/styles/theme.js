@@ -6,7 +6,7 @@ const palette = {
     main: colors.grey[100],
   },
   background: {
-    main: '#674d91',
+    main: colors.grey[900],
     primary: colors.grey[800],
   },
 };
@@ -16,12 +16,31 @@ const theme = createMuiTheme({
     MuiCssBaseline: {
       '@global': {
         body: {
-          margin: 0,
+          margin: '0 auto',
           backgroundColor: palette.background.main,
           color: palette.text.main,
+          width: '50%',
         },
       },
     },
+    MuiInputBase: {
+      root: {
+        backgroundColor: colors.grey[100],
+        marginBottom: 20,
+        width: 500,
+      },
+    },
+    MuiButton: {
+      root: {
+        backgroundColor: colors.grey[100],
+        width: 100,
+        marginRight: 200,
+        '&:hover': {
+          backgroundColor: colors.grey[300],
+        },
+      },
+    },
+
     MuiTypography: {
       root: {},
     },
