@@ -1,7 +1,6 @@
 {
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": ["react-app", "react-app/jest"],
   "rules": {
-    
     "quotes": ["error", "single"],
     "no-undef": "error",
     "no-unused-vars": "error",
@@ -10,30 +9,6 @@
     "no-console": "warn",
     "no-debugger": "warn",
     "semi-spacing": "error",
-    "semi": "error",
-    "react/prop-types": 0,
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
-  },
-  "env": {
-    "browser": true,
-    "es6": true,
-    "node": true
-  },
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true
-    }
-  },
-  "globals": {
-    "document": true
-  },
-  "settings": {
-    "react": {
-      "pragma": "React",
-      "version": "detect"
-    }
+    "semi": "error"
   }
 }
