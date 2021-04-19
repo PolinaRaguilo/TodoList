@@ -12,6 +12,7 @@ const useStyles = makeStyles(() => ({
 
 const MainPage = () => {
   const classes = useStyles();
+
   return (
     <>
       <Typography className={classes.main__title}>ToDo List</Typography>

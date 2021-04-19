@@ -33,14 +33,13 @@ const theme = createMuiTheme({
     MuiButton: {
       root: {
         backgroundColor: colors.grey[100],
-        width: 100,
+        width: 200,
         marginRight: 200,
         '&:hover': {
           backgroundColor: colors.grey[300],
         },
       },
     },
-
     MuiTypography: {
       root: {},
     },
