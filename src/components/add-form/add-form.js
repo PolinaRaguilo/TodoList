@@ -28,12 +28,16 @@ const AddForm = () => {
       <Typography className={classes.title}>Add ToDo</Typography>
       <form className={classes.root}>
         <Container>
-          <TextField label="Title" variant="outlined" />
+          <TextField
+            placeholder="Title"
+            variant="outlined"
+            className={classes.input}
+          />
         </Container>
 
         <Container>
           <TextField
-            label="Description"
+            placeholder="Description"
             multiline
             variant="outlined"
             rowsMax={5}
