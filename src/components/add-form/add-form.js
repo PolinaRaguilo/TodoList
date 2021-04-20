@@ -7,6 +7,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import { nanoid } from 'nanoid';
 import { useState } from 'react';
 
 const useStyles = makeStyles({
@@ -47,8 +48,9 @@ const useStyles = makeStyles({
   },
 });
 
-const AddForm = () => {
+const AddForm = ({ addItem }) => {
   const classes = useStyles();
+
   const [open, setOpen] = useState(false);
 
   const openHandler = () => {
@@ -56,6 +58,34 @@ const AddForm = () => {
   };
 
   const closeHandler = () => {
+    setOpen(false);
+  };
+
+  const initialItem = {
+    title: '',
+    description: '',
+  };
+
+  const [newItem, setNew] = useState(initialItem);
+
+  const onHandleChange = (e) => {
+    const { name, value } = e.target;
+    setNew({
+      ...newItem,
+      [name]: value,
+    });
+  };
+
+  const onAddHandler = (e) => {
+    e.preventDefault();
+    addItem((prev) => [
+      ...prev,
+      {
+        id: nanoid(5),
+        ...newItem,
+      },
+    ]);
+    setNew(initialItem);
     setOpen(false);
   };
   return (
@@ -66,21 +96,32 @@ const AddForm = () => {
       <Modal open={open} onClose={closeHandler}>
         <Container className={classes.paper}>
           <Typography className={classes.title}>Add ToDo</Typography>
-          <form className={classes.root}>
+          <form className={classes.root} onSubmit={onAddHandler}>
             <TextField
               label="Title"
               variant="outlined"
               className={classes.input}
+              name="title"
+              value={newItem.title}
+              onChange={onHandleChange}
             />
 
             <TextField
               label="Description"
               multiline
               variant="outlined"
+              name="description"
+              className={classes.input}
+              value={newItem.description}
+              onChange={onHandleChange}
               rowsMax={5}
             />
 
-            <Button className={classes.button__add}>Add</Button>
+            <Container className={classes.flex__container}>
+              <Button type="submit" className={classes.button__add}>
+                Add
+              </Button>
+            </Container>
           </form>
         </Container>
       </Modal>
