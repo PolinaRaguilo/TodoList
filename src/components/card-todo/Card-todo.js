@@ -28,11 +28,12 @@ const useStyles = makeStyles({
     padding: 0,
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   btn__change: {
-    minWidth: 100,
-    marginRight: 20,
-    marginLeft: 20,
+    minWidth: 180,
+    height: 30,
+    marginRight: 0,
   },
   btn__modal: {
     backgroundColor: colors.grey[800],
@@ -54,6 +55,12 @@ const CardTodo = ({ items, setItems, item }) => {
 
   const [open, setOpen] = useState(false);
   const [stateSelect, setState] = useState('');
+
+  const selectValues = [
+    { value: 'todo', text: 'ToDo' },
+    { value: 'in-progress', text: 'In progress' },
+    { value: 'done', text: 'Done' },
+  ];
 
   const onChangeSelect = (e) => {
     setState(e.target.value);
@@ -78,16 +85,24 @@ const CardTodo = ({ items, setItems, item }) => {
     setOpen(false);
   };
 
+  const stateClass = () => {
+    let classState = classes.root;
+    switch (item.state) {
+      case 'todo':
+        return classState + ` ${classes.todo}`;
+      case 'in-progress':
+        return classState + ` ${classes.inProgress}`;
+      case 'done':
+        return classState + ` ${classes.done}`;
+      default:
+        return classState;
+    }
+  };
+  const cardClass = stateClass();
+
   return (
     <>
-      <Card
-        className={`${classes.root} ${
-          (item.state === 'todo' && classes.todo) ||
-          (item.state === 'in-progress' && classes.inProgress) ||
-          (item.state === 'done' && classes.done)
-        }`}
-        variant="outlined"
-      >
+      <Card className={cardClass} variant="outlined">
         <CardContent>
           <Typography variant="h5" component="h2">
             {item.title}
@@ -113,9 +128,9 @@ const CardTodo = ({ items, setItems, item }) => {
           <form className={classes.container}>
             <FormControl className={classes.formControl}>
               <Select native value={stateSelect} onChange={onChangeSelect}>
-                <option value="todo">ToDo</option>
-                <option value="in-progress">In progress</option>
-                <option value="done">Done</option>
+                {selectValues.map((item) => {
+                  return <option value={item.value}>{item.text}</option>;
+                })}
               </Select>
             </FormControl>
           </form>
