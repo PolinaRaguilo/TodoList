@@ -33,7 +33,7 @@ const theme = createMuiTheme({
     MuiButton: {
       root: {
         backgroundColor: colors.grey[100],
-        width: 100,
+        width: 200,
         marginRight: 200,
         '&:hover': {
           backgroundColor: colors.grey[300],
@@ -42,6 +42,14 @@ const theme = createMuiTheme({
     },
     MuiTypography: {
       root: {},
+    },
+    MuiCircularProgress: {
+      colorPrimary: {
+        color: colors.grey[100],
+        display: 'block',
+        margin: '0 auto',
+        marginBottom: 20,
+      },
     },
   },
 });
