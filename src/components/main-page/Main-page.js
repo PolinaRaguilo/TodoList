@@ -1,15 +1,17 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
   CircularProgress,
   Container,
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { DB_URL } from '../../config/constants';
+
 import AddForm from '../add-form/add-form';
 import CardTodo from '../card-todo/Card-todo';
 import Legend from '../legend/Legend';
+
+import { DB_URL } from '../../config/constants';
 
 const useStyles = makeStyles(() => ({
   main__title: {
@@ -32,6 +34,7 @@ const MainPage = () => {
       setItems(response.data);
       setLoading(false);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
     }
   };
@@ -49,7 +52,14 @@ const MainPage = () => {
         <>
           <Container>
             {items.map((item) => {
-              return <CardTodo key={item.id} todo={item} />;
+              return (
+                <CardTodo
+                  key={item.id}
+                  item={item}
+                  setItems={setItems}
+                  items={items}
+                />
+              );
             })}
           </Container>
           <Legend />
