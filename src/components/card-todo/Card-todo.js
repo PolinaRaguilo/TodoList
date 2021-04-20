@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   CardContent,
+  colors,
   makeStyles,
   Typography,
 } from '@material-ui/core';
@@ -20,12 +21,17 @@ const useStyles = makeStyles({
     fontSize: 14,
   },
   btn__open: {
+    backgroundColor: colors.grey[800],
+    color: colors.grey[100],
     display: 'block',
     width: 200,
     position: 'absolute',
     marginRight: 0,
     bottom: '35%',
     right: 10,
+    '&:hover': {
+      backgroundColor: colors.grey[600],
+    },
   },
 });
 
