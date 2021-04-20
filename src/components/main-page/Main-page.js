@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { DB_URL } from '../../config/constants';
 import AddForm from '../add-form/add-form';
 import CardTodo from '../card-todo/Card-todo';
+import Legend from '../legend/Legend';
 
 const useStyles = makeStyles(() => ({
   main__title: {
@@ -45,13 +46,15 @@ const MainPage = () => {
       {isLoading ? (
         <CircularProgress />
       ) : (
-        <Container>
-          {items.map((item) => {
-            return <CardTodo key={item.id} todo={item} />;
-          })}
-        </Container>
+        <>
+          <Container>
+            {items.map((item) => {
+              return <CardTodo key={item.id} todo={item} />;
+            })}
+          </Container>
+          <Legend />
+        </>
       )}
-
       <AddForm addItem={setItems} />
     </>
   );
