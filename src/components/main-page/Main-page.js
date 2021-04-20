@@ -45,7 +45,7 @@ const MainPage = () => {
           );
         })}
       </Container>
-      <AddForm />
+      <AddForm addItem={setItems} />
     </>
   );
 };
