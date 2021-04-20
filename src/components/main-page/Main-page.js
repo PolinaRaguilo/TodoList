@@ -2,6 +2,7 @@ import { Container, makeStyles, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import AddForm from '../add-form/add-form';
 import CardTodo from '../card-todo/Card-todo';
+import Legend from '../legend/Legend';
 
 const useStyles = makeStyles(() => ({
   main__title: {
@@ -26,6 +27,7 @@ const MainPage = () => {
           return <CardTodo key={item.id} todo={item} />;
         })}
       </Container>
+      <Legend />
       <AddForm addItem={setItems} />
     </>
   );
