@@ -22,14 +22,14 @@ const MainPage = () => {
   const classes = useStyles();
 
   const [items, setItems] = useState([]);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
 
   const getData = async () => {
     try {
       setLoading(true);
       const response = await axios.get(`${DB_URL}/items`);
       setItems(response.data);
-      // setLoading(false);
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
