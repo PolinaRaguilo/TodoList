@@ -40,7 +40,6 @@ const theme = createMuiTheme({
         },
       },
     },
-
     MuiTypography: {
       root: {},
     },

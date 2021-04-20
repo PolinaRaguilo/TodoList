@@ -18,6 +18,7 @@ const MainPage = () => {
   const [items, setItems] = useState([
     { id: 1, title: 'fdsf', description: 'hfjdhf' },
     { id: 2, title: '231', description: 'gd' },
+    { id: 0, title: 'Reading', description: 'Read one book' },
   ]);
 
   return (
@@ -35,7 +36,7 @@ const MainPage = () => {
           );
         })}
       </Container>
-      <AddForm />
+      <AddForm addItem={setItems} />
     </>
   );
 };

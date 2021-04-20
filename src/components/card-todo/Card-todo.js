@@ -5,17 +5,18 @@ import {
   colors,
   Container,
   makeStyles,
-  Modal,
   Typography,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useState } from 'react';
+import ModalWrapper from '../modal/Modal';
 
 const useStyles = makeStyles({
   root: {
     width: '90%',
     margin: '0 auto',
     marginBottom: 35,
+    position: 'relative',
   },
   title: {
     fontSize: 14,
@@ -29,16 +30,10 @@ const useStyles = makeStyles({
   },
   icon: {
     fontSize: 30,
-    marginLeft: 25,
+    position: 'absolute',
+    top: 0,
+    right: 0,
     cursor: 'pointer',
-  },
-  paper: {
-    marginTop: 200,
-    padding: '20px 10px 20px 10px',
-    margin: '0 auto',
-    width: '30%',
-    borderRadius: 10,
-    backgroundColor: colors.grey[100],
   },
   modal__title: {
     fontSize: 20,
@@ -100,21 +95,17 @@ const CardTodo = ({ item, setItems, items }) => {
           </Container>
         </CardContent>
       </Card>
-      <Modal open={open} onClose={closeHandler}>
-        <Container className={classes.paper}>
-          <Typography className={classes.modal__title}>
-            Are you sure?
-          </Typography>
-          <Container className={classes.btn__wrapper}>
-            <Button className={classes.btn__modal} onClick={onDeleteHanlder}>
-              Yes
-            </Button>
-            <Button className={classes.btn__modal} onClick={closeHandler}>
-              No
-            </Button>
-          </Container>
+      <ModalWrapper isOpen={open} close={closeHandler}>
+        <Typography className={classes.modal__title}>Are you sure?</Typography>
+        <Container className={classes.btn__wrapper}>
+          <Button className={classes.btn__modal} onClick={onDeleteHanlder}>
+            Yes
+          </Button>
+          <Button className={classes.btn__modal} onClick={closeHandler}>
+            No
+          </Button>
         </Container>
-      </Modal>
+      </ModalWrapper>
     </>
   );
 };
