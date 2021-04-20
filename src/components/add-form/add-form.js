@@ -33,12 +33,17 @@ const useStyles = makeStyles({
     },
   },
   paper: {
-    marginTop: 200,
+    position: 'absolute',
+    top: '25%',
+    left: 0,
+    right: 0,
     padding: '20px 0px 20px 0px',
-    margin: '0 auto',
-    width: '40%',
+    width: 700,
     borderRadius: 30,
     backgroundColor: colors.grey[100],
+  },
+  input: {
+    width: 'auto',
   },
 });
 
@@ -62,18 +67,19 @@ const AddForm = () => {
         <Container className={classes.paper}>
           <Typography className={classes.title}>Add ToDo</Typography>
           <form className={classes.root}>
-            <Container>
-              <TextField label="Title" variant="outlined" />
-            </Container>
+            <TextField
+              label="Title"
+              variant="outlined"
+              className={classes.input}
+            />
 
-            <Container>
-              <TextField
-                label="Description"
-                multiline
-                variant="outlined"
-                rowsMax={5}
-              />
-            </Container>
+            <TextField
+              label="Description"
+              multiline
+              variant="outlined"
+              rowsMax={5}
+            />
+
             <Button className={classes.button__add}>Add</Button>
           </form>
         </Container>
