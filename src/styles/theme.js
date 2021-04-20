@@ -43,6 +43,11 @@ const theme = createMuiTheme({
     MuiTypography: {
       root: {},
     },
+    MuiList: {
+      root: {
+        width: 200,
+      },
+    },
   },
 });
 
