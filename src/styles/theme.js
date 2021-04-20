@@ -43,6 +43,14 @@ const theme = createMuiTheme({
     MuiTypography: {
       root: {},
     },
+    MuiCircularProgress: {
+      colorPrimary: {
+        color: colors.grey[100],
+        display: 'block',
+        margin: '0 auto',
+        marginBottom: 20,
+      },
+    },
   },
 });
 
