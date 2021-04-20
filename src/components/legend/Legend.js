@@ -6,10 +6,12 @@ const useStyles = makeStyles({
     backgroundColor: colors.grey[100],
     marginBottom: 35,
     padding: 20,
+    borderRadius: 10,
   },
   title: {
     fontSize: 14,
     color: colors.grey[900],
+    marginLeft: 5,
   },
   box__color: {
     padding: 0,
@@ -21,7 +23,7 @@ const useStyles = makeStyles({
     padding: 0,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   todo: {
     backgroundColor: '#ffcdd2',
