@@ -104,7 +104,7 @@ const AddForm = ({ addItem }) => {
           <Typography className={classes.title}>Add ToDo</Typography>
           <form className={classes.root} onSubmit={onAddHandler}>
             <TextField
-              label="Title"
+              placeholder="Title"
               variant="outlined"
               className={classes.input}
               name="title"
@@ -113,7 +113,7 @@ const AddForm = ({ addItem }) => {
             />
 
             <TextField
-              label="Description"
+              placeholder="Description"
               multiline
               variant="outlined"
               name="description"
