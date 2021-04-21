@@ -7,8 +7,10 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import axios from 'axios';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
+import { DB_URL } from '../../config/constants';
 
 const useStyles = makeStyles({
   root: {
@@ -76,18 +78,21 @@ const AddForm = ({ addItem }) => {
     });
   };
 
-  const onAddHandler = (e) => {
+  const onAddHandler = async (e) => {
     e.preventDefault();
-    addItem((prev) => [
-      ...prev,
-      {
-        id: nanoid(5),
-        state: 'todo',
-        ...newItem,
-      },
-    ]);
-    setNew(initialItem);
-    setOpen(false);
+    const newToDo = {
+      id: nanoid(5),
+      state: 'ToDo',
+      ...newItem,
+    };
+    try {
+      await axios.post(`${DB_URL}/items`, newToDo);
+      addItem((prev) => [...prev, newToDo]);
+      setNew(initialItem);
+      setOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>

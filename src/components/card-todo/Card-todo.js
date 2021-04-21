@@ -95,13 +95,6 @@ const CardTodo = ({ items, setItems, item }) => {
 
   const [menu, setMenu] = useState(null);
 
-  const handleClickMenu = (event) => {
-    setMenu(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setMenu(null);
-  };
   const [openDelete, setOpenDelete] = useState(false);
   const [openState, setOpenState] = useState(false);
   const [stateSelect, setState] = useState('');
@@ -111,6 +104,14 @@ const CardTodo = ({ items, setItems, item }) => {
     { value: IN_PROGRESS, text: IN_PROGRESS },
     { value: DONE, text: DONE },
   ];
+
+  const handleClickMenu = (event) => {
+    setMenu(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setMenu(null);
+  };
 
   const onChangeSelect = (e) => {
     setState(e.target.value);
