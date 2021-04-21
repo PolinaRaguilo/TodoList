@@ -1,6 +1,6 @@
 import { Menu, MenuItem } from '@material-ui/core';
 
-const MenuCard = ({ isOpen, onCloseMenu, onOpenEdit }) => {
+const MenuCard = ({ isOpen, onCloseMenu, onEdit }) => {
   const menuItems = ['Delete', 'Set state'];
 
   const onCloseHandler = () => {
@@ -8,7 +8,7 @@ const MenuCard = ({ isOpen, onCloseMenu, onOpenEdit }) => {
   };
 
   const onEditOpen = () => {
-    onOpenEdit(true);
+    onEdit();
     onCloseMenu();
   };
 

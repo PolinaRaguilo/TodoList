@@ -4,10 +4,13 @@ import {
   Container,
   makeStyles,
   TextField,
+  Typography,
 } from '@material-ui/core';
 import axios from 'axios';
 import { useState } from 'react';
 import { DB_URL } from '../../config/constants';
+
+import ModalWrapper from '../modal/Modal';
 
 const useStyles = makeStyles({
   root: {
@@ -28,16 +31,25 @@ const useStyles = makeStyles({
   flex__container: {
     display: 'flex',
   },
+  modal__title: {
+    fontSize: 20,
+    marginBottom: 20,
+    color: colors.grey[900],
+    textAlign: 'center',
+  },
 });
 
 const EditForm = (props) => {
+  const {
+    onClose,
+    title = '',
+    description = '',
+    id = null,
+    handleEdit,
+  } = props;
   const classes = useStyles();
-  const initialItem = {
-    title: props.todo.title,
-    description: props.todo.description,
-  };
 
-  const [editItem, setNew] = useState(initialItem);
+  const [editItem, setNew] = useState({ title, description, id });
 
   const onHandleChange = (e) => {
     const { name, value } = e.target;
@@ -47,62 +59,54 @@ const EditForm = (props) => {
     });
   };
 
-  const closeHandler = () => {
-    props.closeModal(false);
-  };
-
   const onUpdateHandler = async (e) => {
     e.preventDefault();
     const newData = {
-      ...props.todo,
       ...editItem,
       modifiedAt: new Date().toLocaleString('ru'),
     };
     try {
-      await axios.put(`${DB_URL}/items/${props.todo.id}`, newData);
-      props.setItems(
-        props.items.map((todoItem) =>
-          todoItem.id === props.todo.id ? newData : todoItem,
-        ),
-      );
-      props.closeModal(false);
+      const { data } = await axios.put(`${DB_URL}/items/${id}`, newData);
+      handleEdit(data);
+      onClose();
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
     }
   };
+
   return (
-    <form className={classes.root}>
-      <TextField
-        variant="outlined"
-        className={classes.input}
-        name="title"
-        value={editItem.title}
-        onChange={onHandleChange}
-      />
-      <TextField
-        variant="outlined"
-        className={classes.input}
-        name="description"
-        value={editItem.description}
-        onChange={onHandleChange}
-      />
-      <Container className={classes.flex__container}>
-        <Button
-          type="submit"
-          className={classes.button__add}
-          onClick={onUpdateHandler}
-        >
-          Save
-        </Button>
-        <Button
-          type="submit"
-          className={classes.button__add}
-          onClick={closeHandler}
-        >
-          Cancel
-        </Button>
-      </Container>
-    </form>
+    <ModalWrapper isOpen close={onClose}>
+      <Typography className={classes.modal__title}>Edit information</Typography>
+      <form className={classes.root}>
+        <TextField
+          variant="outlined"
+          className={classes.input}
+          name="title"
+          value={editItem.title}
+          onChange={onHandleChange}
+        />
+        <TextField
+          variant="outlined"
+          className={classes.input}
+          name="description"
+          value={editItem.description}
+          onChange={onHandleChange}
+        />
+        <Container className={classes.flex__container}>
+          <Button
+            type="submit"
+            className={classes.button__add}
+            onClick={onUpdateHandler}
+          >
+            Save
+          </Button>
+          <Button className={classes.button__add} onClick={onClose}>
+            Cancel
+          </Button>
+        </Container>
+      </form>
+    </ModalWrapper>
   );
 };
 

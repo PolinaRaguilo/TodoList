@@ -18,7 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ModalWrapper from '../modal/Modal';
 import MenuCard from '../menu/menu';
 import { DONE, IN_PROGRESS, TODO } from '../../config/constants';
-import EditForm from '../edit-form/Edit-form';
+// import EditForm from '../edit-form/Edit-form';
 
 const useStyles = makeStyles({
   root: {
@@ -73,12 +73,7 @@ const useStyles = makeStyles({
   done: {
     backgroundColor: '#bdbdbd',
   },
-  modal__title: {
-    fontSize: 20,
-    marginBottom: 20,
-    color: colors.grey[900],
-    textAlign: 'center',
-  },
+
   btn__wrapper: {
     display: 'flex',
   },
@@ -91,14 +86,13 @@ const useStyles = makeStyles({
   },
 });
 
-const CardTodo = ({ items, setItems, item }) => {
+const CardTodo = ({ items, setItems, item, onEdit }) => {
   const classes = useStyles();
 
   const [menu, setMenu] = useState(null);
   const [openDelete, setOpenDelete] = useState(false);
   const [openState, setOpenState] = useState(false);
   const [stateSelect, setState] = useState('');
-  const [editModal, setEditModal] = useState(false);
 
   const handleClick = (event) => {
     setMenu(event.currentTarget);
@@ -169,6 +163,10 @@ const CardTodo = ({ items, setItems, item }) => {
   };
   const cardClass = stateClass();
 
+  const handleEdit = () => {
+    onEdit(item);
+  };
+
   return (
     <>
       <Card className={cardClass} variant="outlined">
@@ -196,24 +194,7 @@ const CardTodo = ({ items, setItems, item }) => {
           Open Menu
         </Button>
       </Card>
-      <MenuCard
-        isOpen={menu}
-        onCloseMenu={handleClose}
-        onOpenEdit={setEditModal}
-      />
-
-      <ModalWrapper isOpen={editModal} close={setEditModal}>
-        <Typography className={classes.modal__title}>
-          Edit information
-        </Typography>
-        <EditForm
-          todo={item}
-          closeModal={setEditModal}
-          setItems={setItems}
-          items={items}
-        />
-      </ModalWrapper>
-
+      <MenuCard isOpen={menu} onCloseMenu={handleClose} onEdit={handleEdit} />
       <ModalWrapper isOpen={openDelete} close={setOpenDelete}>
         <Typography className={classes.modal__title}>Are you sure?</Typography>
         <Container className={classes.btn__wrapper}>
