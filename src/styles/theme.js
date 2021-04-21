@@ -44,6 +44,11 @@ const theme = createMuiTheme({
     MuiTypography: {
       root: {},
     },
+    MuiList: {
+      root: {
+        width: 200,
+      },
+    },
     MuiCircularProgress: {
       colorPrimary: {
         color: colors.grey[100],

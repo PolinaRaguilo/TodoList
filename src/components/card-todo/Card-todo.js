@@ -16,16 +16,31 @@ import {
 import { useState } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ModalWrapper from '../modal/Modal';
+import MenuCard from '../menu/menu';
 
 const useStyles = makeStyles({
   root: {
+    position: 'relative',
     width: '90%',
     margin: '0 auto',
     marginBottom: 35,
-    position: 'relative',
+    padding: 15,
   },
   title: {
     fontSize: 14,
+  },
+  btn__open: {
+    backgroundColor: colors.grey[800],
+    color: colors.grey[100],
+    display: 'block',
+    width: 200,
+    position: 'absolute',
+    marginRight: 0,
+    bottom: '35%',
+    right: 10,
+    '&:hover': {
+      backgroundColor: colors.grey[600],
+    },
   },
   description__wrapper: {
     padding: 0,
@@ -77,6 +92,15 @@ const useStyles = makeStyles({
 const CardTodo = ({ items, setItems, item }) => {
   const classes = useStyles();
 
+  const [menu, setMenu] = useState(null);
+
+  const handleClick = (event) => {
+    setMenu(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setMenu(null);
+  };
   const [openDelete, setOpenDelete] = useState(false);
   const [openState, setOpenState] = useState(false);
   const [stateSelect, setState] = useState('');
@@ -165,8 +189,11 @@ const CardTodo = ({ items, setItems, item }) => {
             />
           </Container>
         </CardContent>
+        <Button onClick={handleClick} className={classes.btn__open}>
+          Open Menu
+        </Button>
       </Card>
-
+      <MenuCard isOpen={menu} onCloseMenu={handleClose} />
       <ModalWrapper isOpen={openDelete} close={onCloseHandlerDelete}>
         <Typography className={classes.modal__title}>Are you sure?</Typography>
         <Container className={classes.btn__wrapper}>
@@ -178,7 +205,6 @@ const CardTodo = ({ items, setItems, item }) => {
           </Button>
         </Container>
       </ModalWrapper>
-
       <Dialog
         disableBackdropClick
         disableEscapeKeyDown
