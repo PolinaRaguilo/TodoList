@@ -6,6 +6,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
+import { ALL, TODO, IN_PROGRESS, DONE } from '../../config/constants';
 import AddForm from '../add-form/add-form';
 import CardTodo from '../card-todo/Card-todo';
 
@@ -34,26 +35,26 @@ const MainPage = () => {
   const [currentState, setCurrentState] = useState('All');
 
   const [items, setItems] = useState([
-    { id: 0, title: 'Reading', description: 'Read one book', state: 'todo' },
+    { id: 0, title: 'Reading', description: 'Read one book', state: 'ToDo' },
     {
       id: 1,
       title: 'Reading1',
       description: 'Read one book2',
-      state: 'in-progress',
+      state: 'In progress',
     },
     {
       id: 2,
       title: 'Reading2',
       description: 'Read one book1',
-      state: 'in-progress',
+      state: 'In progress',
     },
   ]);
 
   const stateValues = [
-    { value: 'All', text: 'All' },
-    { value: 'todo', text: 'ToDo' },
-    { value: 'in-progress', text: 'In progress' },
-    { value: 'done', text: 'Done' },
+    { value: ALL, text: ALL },
+    { value: TODO, text: TODO },
+    { value: IN_PROGRESS, text: IN_PROGRESS },
+    { value: DONE, text: DONE },
   ];
 
   const handleChange = (event) => {
@@ -79,7 +80,7 @@ const MainPage = () => {
       <Container>
         {items
           .filter((todoItem) =>
-            currentState === 'All' ? todoItem : todoItem.state === currentState,
+            currentState === ALL ? todoItem : todoItem.state === currentState,
           )
           .map((item) => {
             return <CardTodo key={item.id} todo={item} />;
