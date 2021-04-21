@@ -1,7 +1,17 @@
-import { Container, makeStyles, Typography } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import {
+  CircularProgress,
+  Container,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
+
 import AddForm from '../add-form/add-form';
 import CardTodo from '../card-todo/Card-todo';
+import Legend from '../legend/Legend';
+
+import { DB_URL } from '../../config/constants';
 
 const useStyles = makeStyles(() => ({
   main__title: {
@@ -14,19 +24,48 @@ const useStyles = makeStyles(() => ({
 const MainPage = () => {
   const classes = useStyles();
 
-  const [items, setItems] = useState([
-    { id: 0, title: 'Reading', description: 'Read one book' },
-  ]);
+  const [items, setItems] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+
+  const getData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${DB_URL}/items`);
+      setItems(response.data);
+      setLoading(false);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
       <Typography className={classes.main__title}>ToDo List</Typography>
 
-      <Container>
-        {items.map((item) => {
-          return <CardTodo key={item.id} todo={item} />;
-        })}
-      </Container>
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <>
+          <Container>
+            {items.map((item) => {
+              return (
+                <CardTodo
+                  key={item.id}
+                  item={item}
+                  setItems={setItems}
+                  items={items}
+                />
+              );
+            })}
+          </Container>
+          <Legend />
+        </>
+      )}
       <AddForm addItem={setItems} />
     </>
   );
