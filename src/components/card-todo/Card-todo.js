@@ -194,7 +194,14 @@ const CardTodo = ({ items, setItems, item }) => {
           Open Menu
         </Button>
       </Card>
-      <MenuCard isOpen={menu} onCloseMenu={handleClose} />
+
+      <MenuCard
+        isOpen={menu}
+        onCloseMenu={handleClose}
+        todoItemInf={item}
+        cardClass={cardClass}
+      />
+
       <ModalWrapper isOpen={openDelete} close={onCloseHandlerDelete}>
         <Typography className={classes.modal__title}>Are you sure?</Typography>
         <Container className={classes.btn__wrapper}>
@@ -206,6 +213,7 @@ const CardTodo = ({ items, setItems, item }) => {
           </Button>
         </Container>
       </ModalWrapper>
+
       <Dialog
         disableBackdropClick
         disableEscapeKeyDown
