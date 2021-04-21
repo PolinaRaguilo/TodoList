@@ -1,14 +1,18 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
+  CircularProgress,
   Container,
   makeStyles,
+  Typography,
   MenuItem,
   Select,
-  Typography,
 } from '@material-ui/core';
-import { useState } from 'react';
-import { ALL, TODO, IN_PROGRESS, DONE } from '../../config/constants';
+import { ALL, TODO, IN_PROGRESS, DONE, DB_URL } from '../../config/constants';
+
 import AddForm from '../add-form/add-form';
 import CardTodo from '../card-todo/Card-todo';
+import Legend from '../legend/Legend';
 
 const useStyles = makeStyles(() => ({
   main__title: {
@@ -31,24 +35,26 @@ const useStyles = makeStyles(() => ({
 
 const MainPage = () => {
   const classes = useStyles();
-
   const [currentState, setCurrentState] = useState('All');
 
-  const [items, setItems] = useState([
-    { id: 0, title: 'Reading', description: 'Read one book', state: 'ToDo' },
-    {
-      id: 1,
-      title: 'Reading1',
-      description: 'Read one book2',
-      state: 'In progress',
-    },
-    {
-      id: 2,
-      title: 'Reading2',
-      description: 'Read one book1',
-      state: 'In progress',
-    },
-  ]);
+  const [items, setItems] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+
+  const getData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${DB_URL}/items`);
+      setItems(response.data);
+      setLoading(false);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const stateValues = [
     { value: ALL, text: ALL },
@@ -62,7 +68,7 @@ const MainPage = () => {
   };
 
   return (
-    <>
+    <Container>
       <Container className={classes.wrapper}>
         <Typography className={classes.main__title}>ToDo List</Typography>
         <Select
@@ -78,16 +84,32 @@ const MainPage = () => {
       </Container>
 
       <Container>
-        {items
-          .filter((todoItem) =>
-            currentState === ALL ? todoItem : todoItem.state === currentState,
-          )
-          .map((item) => {
-            return <CardTodo key={item.id} todo={item} />;
-          })}
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <Container>
+            {items
+              .filter((todoItem) =>
+                currentState === ALL
+                  ? todoItem
+                  : todoItem.state === currentState,
+              )
+              .map((item) => {
+                return (
+                  <CardTodo
+                    key={item.id}
+                    item={item}
+                    setItems={setItems}
+                    items={items}
+                  />
+                );
+              })}
+          </Container>
+        )}
       </Container>
+      <Legend />
       <AddForm addItem={setItems} />
-    </>
+    </Container>
   );
 };
 

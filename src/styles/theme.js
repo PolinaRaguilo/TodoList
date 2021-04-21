@@ -30,10 +30,11 @@ const theme = createMuiTheme({
         width: 500,
       },
     },
+
     MuiButton: {
       root: {
         backgroundColor: colors.grey[100],
-        width: 100,
+        width: 200,
         marginRight: 200,
         '&:hover': {
           backgroundColor: colors.grey[300],
@@ -46,6 +47,19 @@ const theme = createMuiTheme({
     MuiSelect: {
       select: {
         paddingLeft: 20,
+      },
+    },
+    MuiList: {
+      root: {
+        width: 200,
+      },
+    },
+    MuiCircularProgress: {
+      colorPrimary: {
+        color: colors.grey[100],
+        display: 'block',
+        margin: '0 auto',
+        marginBottom: 20,
       },
     },
   },
