@@ -30,6 +30,7 @@ const theme = createMuiTheme({
         width: 500,
       },
     },
+
     MuiButton: {
       root: {
         backgroundColor: colors.grey[100],

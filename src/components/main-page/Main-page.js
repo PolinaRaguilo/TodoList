@@ -46,6 +46,7 @@ const MainPage = () => {
   return (
     <>
       <Typography className={classes.main__title}>ToDo List</Typography>
+
       {isLoading ? (
         <CircularProgress />
       ) : (
