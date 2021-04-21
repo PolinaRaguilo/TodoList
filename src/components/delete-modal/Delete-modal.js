@@ -38,25 +38,33 @@ const useStyles = makeStyles({
   },
 });
 
-const DeleteModal = ({ isOpenDelete, onActionOpenDelete, onActionDelete }) => {
+const DeleteModal = ({
+  isOpenDelete,
+  onActionCloseDelete,
+  todoItems,
+  todoId,
+  setToDoItems,
+}) => {
   const classes = useStyles();
 
-  const onDeleteAction = () => {
-    onActionDelete();
+  const onDeleteClose = () => {
+    onActionCloseDelete();
   };
 
-  const onDeleteOpen = () => {
-    onActionOpenDelete();
+  const onDeleteHanlder = () => {
+    setToDoItems([...todoItems.filter((todo) => todo.id !== todoId)]);
+    onDeleteClose();
   };
+
   return (
-    <Modal open={isOpenDelete} onClose={onDeleteOpen}>
+    <Modal open={isOpenDelete} onClose={onDeleteClose}>
       <Container className={classes.paper}>
         <Typography className={classes.modal__title}>Are you sure?</Typography>
         <Container className={classes.btn__wrapper}>
-          <Button className={classes.btn__modal} onClick={onDeleteAction}>
+          <Button className={classes.btn__modal} onClick={onDeleteHanlder}>
             Yes
           </Button>
-          <Button className={classes.btn__modal} onClick={onDeleteOpen}>
+          <Button className={classes.btn__modal} onClick={onDeleteClose}>
             No
           </Button>
         </Container>

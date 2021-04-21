@@ -138,15 +138,6 @@ const CardTodo = ({ items, setItems, item }) => {
     setOpenState(false);
   };
 
-  const onDelete = (id) => {
-    setItems([...items.filter((item) => item.id !== id)]);
-  };
-
-  const onDeleteHanlder = () => {
-    onDelete(item.id);
-    setOpenDelete(false);
-  };
-
   const stateClass = () => {
     let classState = classes.root;
     switch (item.state) {
@@ -199,8 +190,10 @@ const CardTodo = ({ items, setItems, item }) => {
 
       <DeleteModal
         isOpenDelete={openDelete}
-        onActionOpenDelete={onCloseHandlerDelete}
-        onActionDelete={onDeleteHanlder}
+        onActionCloseDelete={onCloseHandlerDelete}
+        todoItems={items}
+        todoId={item.id}
+        setToDoItems={setItems}
       />
 
       <Dialog

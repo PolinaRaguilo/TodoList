@@ -6,6 +6,8 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
+import { useState } from 'react';
+import DeleteModal from '../delete-modal/Delete-modal';
 
 const useStyles = makeStyles({
   content__wrapper: {
@@ -38,39 +40,56 @@ const useStyles = makeStyles({
 const TodoPage = (props) => {
   const classes = useStyles();
   const { state: todoItemInf } = props.location;
+  const [openDelete, setOpenDelete] = useState(false);
+
+  const onOpenHandlerDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const onCloseHandlerDelete = () => {
+    setOpenDelete(false);
+  };
 
   console.log(props.location);
   return (
-    <Container className={classes.content__wrapper}>
-      <Container className={classes.titles__wrapper}>
-        <Card variant="outlined" className={classes.card__little}>
-          <Typography variant="h5" component="h2">
-            {todoItemInf.title}
-          </Typography>
-        </Card>
-        <Card variant="outlined" className={classes.card__little}>
-          <Typography variant="h5" component="h2">
-            date
-          </Typography>
-        </Card>
-      </Container>
-      <Card
-        variant="outlined"
-        className={`${classes.card__big} ${todoItemInf.cardClass}`}
-      >
-        <CardContent>
-          <Container>
-            <Typography variant="body2" component="p">
-              {todoItemInf.description}
+    <>
+      <Container className={classes.content__wrapper}>
+        <Container className={classes.titles__wrapper}>
+          <Card variant="outlined" className={classes.card__little}>
+            <Typography variant="h5" component="h2">
+              {todoItemInf.title}
             </Typography>
-          </Container>
-        </CardContent>
-      </Card>
-      <Container className={classes.actions__wrapper}>
-        <Button className={classes.btn}>Edit</Button>
-        <Button className={classes.btn}>Delete</Button>
+          </Card>
+          <Card variant="outlined" className={classes.card__little}>
+            <Typography variant="h5" component="h2">
+              date
+            </Typography>
+          </Card>
+        </Container>
+        <Card
+          variant="outlined"
+          className={`${classes.card__big} ${todoItemInf.cardClass}`}
+        >
+          <CardContent>
+            <Container>
+              <Typography variant="body2" component="p">
+                {todoItemInf.description}
+              </Typography>
+            </Container>
+          </CardContent>
+        </Card>
+        <Container className={classes.actions__wrapper}>
+          <Button className={classes.btn}>Edit</Button>
+          <Button className={classes.btn} onClick={onOpenHandlerDelete}>
+            Delete
+          </Button>
+        </Container>
       </Container>
-    </Container>
+      <DeleteModal
+        isOpenDelete={openDelete}
+        onActionCloseDelete={onCloseHandlerDelete}
+      />
+    </>
   );
 };
 
