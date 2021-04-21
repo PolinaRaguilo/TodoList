@@ -14,12 +14,15 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ModalWrapper from '../modal/Modal';
 
 const useStyles = makeStyles({
   root: {
     width: '90%',
     margin: '0 auto',
     marginBottom: 35,
+    position: 'relative',
   },
   title: {
     fontSize: 14,
@@ -36,8 +39,13 @@ const useStyles = makeStyles({
     marginRight: 0,
   },
   btn__modal: {
-    backgroundColor: colors.grey[800],
+    backgroundColor: colors.grey[900],
     color: colors.grey[100],
+    display: 'block',
+    margin: '0 auto',
+    '&:hover': {
+      backgroundColor: colors.grey[700],
+    },
   },
   todo: {
     backgroundColor: '#ffcdd2',
@@ -48,12 +56,29 @@ const useStyles = makeStyles({
   done: {
     backgroundColor: '#bdbdbd',
   },
+  modal__title: {
+    fontSize: 20,
+    marginBottom: 20,
+    color: colors.grey[900],
+    textAlign: 'center',
+  },
+  btn__wrapper: {
+    display: 'flex',
+  },
+  icon: {
+    fontSize: 30,
+    position: 'absolute',
+    top: 5,
+    right: 0,
+    cursor: 'pointer',
+  },
 });
 
 const CardTodo = ({ items, setItems, item }) => {
   const classes = useStyles();
 
-  const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openState, setOpenState] = useState(false);
   const [stateSelect, setState] = useState('');
 
   const selectValues = [
@@ -66,12 +91,20 @@ const CardTodo = ({ items, setItems, item }) => {
     setState(e.target.value);
   };
 
-  const onOpenHandler = () => {
-    setOpen(true);
+  const onOpenHandlerDelete = () => {
+    setOpenDelete(true);
   };
 
-  const onCloseHandler = () => {
-    setOpen(false);
+  const onCloseHandlerDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const onOpenHandlerState = () => {
+    setOpenState(true);
+  };
+
+  const onCloseHandlerState = () => {
+    setOpenState(false);
   };
 
   const changeStateItem = () => {
@@ -82,7 +115,16 @@ const CardTodo = ({ items, setItems, item }) => {
       return todo;
     });
     setItems(newItems);
-    setOpen(false);
+    setOpenState(false);
+  };
+
+  const onDelete = (id) => {
+    setItems([...items.filter((item) => item.id !== id)]);
+  };
+
+  const onDeleteHanlder = () => {
+    onDelete(item.id);
+    setOpenDelete(false);
   };
 
   const stateClass = () => {
@@ -111,17 +153,37 @@ const CardTodo = ({ items, setItems, item }) => {
             <Typography variant="body2" component="p">
               {item.description}
             </Typography>
-            <Button className={classes.btn__change} onClick={onOpenHandler}>
+            <Button
+              className={classes.btn__change}
+              onClick={onOpenHandlerState}
+            >
               State
             </Button>
+            <DeleteIcon
+              className={classes.icon}
+              onClick={onOpenHandlerDelete}
+            />
           </Container>
         </CardContent>
       </Card>
+
+      <ModalWrapper isOpen={openDelete} close={onCloseHandlerDelete}>
+        <Typography className={classes.modal__title}>Are you sure?</Typography>
+        <Container className={classes.btn__wrapper}>
+          <Button className={classes.btn__modal} onClick={onDeleteHanlder}>
+            Yes
+          </Button>
+          <Button className={classes.btn__modal} onClick={onCloseHandlerDelete}>
+            No
+          </Button>
+        </Container>
+      </ModalWrapper>
+
       <Dialog
         disableBackdropClick
         disableEscapeKeyDown
-        open={open}
-        onClose={onCloseHandler}
+        open={openState}
+        onClose={onCloseHandlerState}
       >
         <DialogTitle>Select state </DialogTitle>
         <DialogContent>
@@ -137,7 +199,7 @@ const CardTodo = ({ items, setItems, item }) => {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={onCloseHandler}
+            onClick={onCloseHandlerState}
             className={`${classes.btn__change} ${classes.btn__modal}`}
           >
             Cancel
