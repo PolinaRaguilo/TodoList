@@ -44,6 +44,11 @@ const theme = createMuiTheme({
     MuiTypography: {
       root: {},
     },
+    MuiSelect: {
+      select: {
+        paddingLeft: 20,
+      },
+    },
     MuiList: {
       root: {
         width: 200,

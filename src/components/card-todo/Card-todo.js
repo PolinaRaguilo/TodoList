@@ -17,6 +17,7 @@ import { useState } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ModalWrapper from '../modal/Modal';
 import MenuCard from '../menu/menu';
+import { DONE, IN_PROGRESS, TODO } from '../../config/constants';
 
 const useStyles = makeStyles({
   root: {
@@ -106,9 +107,9 @@ const CardTodo = ({ items, setItems, item }) => {
   const [stateSelect, setState] = useState('');
 
   const selectValues = [
-    { value: 'todo', text: 'ToDo' },
-    { value: 'in-progress', text: 'In progress' },
-    { value: 'done', text: 'Done' },
+    { value: TODO, text: TODO },
+    { value: IN_PROGRESS, text: IN_PROGRESS },
+    { value: DONE, text: DONE },
   ];
 
   const onChangeSelect = (e) => {
@@ -154,11 +155,11 @@ const CardTodo = ({ items, setItems, item }) => {
   const stateClass = () => {
     let classState = classes.root;
     switch (item.state) {
-      case 'todo':
+      case TODO:
         return classState + ` ${classes.todo}`;
-      case 'in-progress':
+      case IN_PROGRESS:
         return classState + ` ${classes.inProgress}`;
-      case 'done':
+      case DONE:
         return classState + ` ${classes.done}`;
       default:
         return classState;

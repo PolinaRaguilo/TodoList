@@ -82,6 +82,7 @@ const AddForm = ({ addItem }) => {
       ...prev,
       {
         id: nanoid(5),
+        state: 'todo',
         ...newItem,
       },
     ]);
