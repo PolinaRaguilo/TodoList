@@ -18,6 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ModalWrapper from '../modal/Modal';
 import MenuCard from '../menu/menu';
 import { DONE, IN_PROGRESS, TODO } from '../../config/constants';
+import { nanoid } from 'nanoid';
 
 const useStyles = makeStyles({
   root: {
@@ -218,7 +219,11 @@ const CardTodo = ({ items, setItems, item }) => {
             <FormControl className={classes.formControl}>
               <Select native value={stateSelect} onChange={onChangeSelect}>
                 {selectValues.map((item) => {
-                  return <option value={item.value}>{item.text}</option>;
+                  return (
+                    <option key={nanoid(2)} value={item.value}>
+                      {item.text}
+                    </option>
+                  );
                 })}
               </Select>
             </FormControl>

@@ -1,4 +1,5 @@
 import { colors, Container, makeStyles, Typography } from '@material-ui/core';
+import { nanoid } from 'nanoid';
 const useStyles = makeStyles({
   root: {
     display: 'flex',
@@ -48,7 +49,7 @@ const Legend = () => {
     <Container className={classes.root}>
       {legendsList.map((item) => {
         return (
-          <Container className={classes.color__wrapper}>
+          <Container key={nanoid(2)} className={classes.color__wrapper}>
             <Container
               className={`${classes.box__color} ${classes[item.classStyle]}`}
             />
