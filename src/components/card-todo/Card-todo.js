@@ -14,7 +14,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ModalWrapper from '../modal/Modal';
 import MenuCard from '../menu/menu';
 import { DONE, IN_PROGRESS, TODO } from '../../config/constants';
@@ -95,11 +95,11 @@ const CardTodo = ({ items, setItems, item }) => {
 
   const [menu, setMenu] = useState(null);
 
-  const handleClick = (event) => {
+  const handleClickMenu = (event) => {
     setMenu(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setMenu(null);
   };
   const [openDelete, setOpenDelete] = useState(false);
@@ -178,23 +178,17 @@ const CardTodo = ({ items, setItems, item }) => {
             <Typography variant="body2" component="p">
               {item.description}
             </Typography>
-            <Button
-              className={classes.btn__change}
-              onClick={onOpenHandlerState}
-            >
-              State
-            </Button>
-            <DeleteIcon
-              className={classes.icon}
-              onClick={onOpenHandlerDelete}
-            />
+
+            <MoreVertIcon className={classes.icon} onClick={handleClickMenu} />
           </Container>
         </CardContent>
-        <Button onClick={handleClick} className={classes.btn__open}>
-          Open Menu
-        </Button>
       </Card>
-      <MenuCard isOpen={menu} onCloseMenu={handleClose} />
+      <MenuCard
+        isOpen={menu}
+        onCloseMenu={handleCloseMenu}
+        openDelete={onOpenHandlerDelete}
+        openState={onOpenHandlerState}
+      />
       <ModalWrapper isOpen={openDelete} close={onCloseHandlerDelete}>
         <Typography className={classes.modal__title}>Are you sure?</Typography>
         <Container className={classes.btn__wrapper}>
