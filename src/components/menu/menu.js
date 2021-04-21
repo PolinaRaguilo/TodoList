@@ -9,7 +9,9 @@ const MenuCard = ({ isOpen, onCloseMenu, onOpenEdit }) => {
 
   const onEditOpen = () => {
     onOpenEdit(true);
+    onCloseMenu();
   };
+
   return (
     <Menu
       anchorEl={isOpen}

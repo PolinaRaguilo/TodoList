@@ -95,6 +95,10 @@ const CardTodo = ({ items, setItems, item }) => {
   const classes = useStyles();
 
   const [menu, setMenu] = useState(null);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openState, setOpenState] = useState(false);
+  const [stateSelect, setState] = useState('');
+  const [editModal, setEditModal] = useState(false);
 
   const handleClick = (event) => {
     setMenu(event.currentTarget);
@@ -103,10 +107,6 @@ const CardTodo = ({ items, setItems, item }) => {
   const handleClose = () => {
     setMenu(null);
   };
-  const [openDelete, setOpenDelete] = useState(false);
-  const [openState, setOpenState] = useState(false);
-  const [stateSelect, setState] = useState('');
-  const [editModal, setEditModal] = useState(false);
 
   const selectValues = [
     { value: TODO, text: TODO },

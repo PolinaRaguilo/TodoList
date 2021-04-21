@@ -51,10 +51,12 @@ const EditForm = (props) => {
     props.closeModal(false);
   };
 
-  const onUpdateHandler = async () => {
+  const onUpdateHandler = async (e) => {
+    e.preventDefault();
     const newData = {
       ...props.todo,
       ...editItem,
+      modifiedAt: new Date().toLocaleString('ru'),
     };
     try {
       await axios.put(`${DB_URL}/items/${props.todo.id}`, newData);
@@ -63,6 +65,7 @@ const EditForm = (props) => {
           todoItem.id === props.todo.id ? newData : todoItem,
         ),
       );
+      props.closeModal(false);
     } catch (err) {
       console.log(err);
     }
