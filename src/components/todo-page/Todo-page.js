@@ -6,6 +6,7 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
+
 const useStyles = makeStyles({
   content__wrapper: {
     padding: 30,

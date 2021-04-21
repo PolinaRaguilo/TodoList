@@ -8,16 +8,15 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   makeStyles,
-  Select,
   Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ModalWrapper from '../modal/Modal';
+import DeleteModal from '../delete-modal/Delete-modal';
 import MenuCard from '../menu/menu';
 import { DONE, IN_PROGRESS, TODO } from '../../config/constants';
+import SelectCustom from '../select/Select';
 
 const useStyles = makeStyles({
   root: {
@@ -112,10 +111,6 @@ const CardTodo = ({ items, setItems, item }) => {
     { value: DONE, text: DONE },
   ];
 
-  const onChangeSelect = (e) => {
-    setState(e.target.value);
-  };
-
   const onOpenHandlerDelete = () => {
     setOpenDelete(true);
   };
@@ -202,17 +197,11 @@ const CardTodo = ({ items, setItems, item }) => {
         cardClass={cardClass}
       />
 
-      <ModalWrapper isOpen={openDelete} close={onCloseHandlerDelete}>
-        <Typography className={classes.modal__title}>Are you sure?</Typography>
-        <Container className={classes.btn__wrapper}>
-          <Button className={classes.btn__modal} onClick={onDeleteHanlder}>
-            Yes
-          </Button>
-          <Button className={classes.btn__modal} onClick={onCloseHandlerDelete}>
-            No
-          </Button>
-        </Container>
-      </ModalWrapper>
+      <DeleteModal
+        isOpenDelete={openDelete}
+        onActionOpenDelete={onCloseHandlerDelete}
+        onActionDelete={onDeleteHanlder}
+      />
 
       <Dialog
         disableBackdropClick
@@ -222,15 +211,11 @@ const CardTodo = ({ items, setItems, item }) => {
       >
         <DialogTitle>Select state </DialogTitle>
         <DialogContent>
-          <form className={classes.container}>
-            <FormControl className={classes.formControl}>
-              <Select native value={stateSelect} onChange={onChangeSelect}>
-                {selectValues.map((item) => {
-                  return <option value={item.value}>{item.text}</option>;
-                })}
-              </Select>
-            </FormControl>
-          </form>
+          <SelectCustom
+            values={selectValues}
+            stateValue={stateSelect}
+            setStateValue={setState}
+          />
         </DialogContent>
         <DialogActions>
           <Button
