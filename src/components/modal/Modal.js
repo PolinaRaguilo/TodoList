@@ -18,7 +18,7 @@ const ModalWrapper = (props) => {
   const { isOpen, close } = props;
 
   const onCloseHandler = () => {
-    close();
+    close(false);
   };
   return (
     <Modal open={isOpen} onClose={onCloseHandler}>

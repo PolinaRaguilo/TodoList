@@ -118,7 +118,7 @@ const AddForm = ({ addItem }) => {
               rowsMax={5}
             />
 
-            <Container className={classes.flex__container}>
+            <Container>
               <Button type="submit" className={classes.button__add}>
                 Add
               </Button>

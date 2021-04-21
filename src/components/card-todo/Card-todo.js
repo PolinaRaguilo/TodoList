@@ -18,6 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ModalWrapper from '../modal/Modal';
 import MenuCard from '../menu/menu';
 import { DONE, IN_PROGRESS, TODO } from '../../config/constants';
+import EditForm from '../edit-form/Edit-form';
 
 const useStyles = makeStyles({
   root: {
@@ -105,6 +106,7 @@ const CardTodo = ({ items, setItems, item }) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openState, setOpenState] = useState(false);
   const [stateSelect, setState] = useState('');
+  const [editModal, setEditModal] = useState(false);
 
   const selectValues = [
     { value: TODO, text: TODO },
@@ -194,8 +196,25 @@ const CardTodo = ({ items, setItems, item }) => {
           Open Menu
         </Button>
       </Card>
-      <MenuCard isOpen={menu} onCloseMenu={handleClose} />
-      <ModalWrapper isOpen={openDelete} close={onCloseHandlerDelete}>
+      <MenuCard
+        isOpen={menu}
+        onCloseMenu={handleClose}
+        onOpenEdit={setEditModal}
+      />
+
+      <ModalWrapper isOpen={editModal} close={setEditModal}>
+        <Typography className={classes.modal__title}>
+          Edit information
+        </Typography>
+        <EditForm
+          todo={item}
+          closeModal={setEditModal}
+          setItems={setItems}
+          items={items}
+        />
+      </ModalWrapper>
+
+      <ModalWrapper isOpen={openDelete} close={setOpenDelete}>
         <Typography className={classes.modal__title}>Are you sure?</Typography>
         <Container className={classes.btn__wrapper}>
           <Button className={classes.btn__modal} onClick={onDeleteHanlder}>
