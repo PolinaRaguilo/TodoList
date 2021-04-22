@@ -1,17 +1,11 @@
 {
   "items": [
     {
-      "id": 0,
-      "title": "Reading",
-      "description": "Read one book",
-      "state": "ToDo"
-    },
-    {
       "id": 1,
-      "title": "Write an essay23dasd",
+      "title": "Write an essay",
       "description": "Write 2 essay about our country",
       "state": "ToDo",
-      "modifiedAt": "21.04.2021, 14:11:19"
+      "modifiedAt": "22.04.2021, 10:27:24"
     }
   ]
 }

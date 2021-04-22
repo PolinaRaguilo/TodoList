@@ -13,6 +13,7 @@ import { ALL, TODO, IN_PROGRESS, DONE, DB_URL } from '../../config/constants';
 import AddForm from '../add-form/add-form';
 import CardTodo from '../card-todo/Card-todo';
 import Legend from '../legend/Legend';
+import { nanoid } from 'nanoid';
 
 const useStyles = makeStyles(() => ({
   main__title: {
@@ -66,7 +67,6 @@ const MainPage = () => {
   const handleChange = (event) => {
     setCurrentState(event.target.value);
   };
-
   return (
     <Container>
       <Container className={classes.wrapper}>
@@ -78,7 +78,11 @@ const MainPage = () => {
           onChange={handleChange}
         >
           {stateValues.map((item) => {
-            return <MenuItem value={item.value}>{item.text}</MenuItem>;
+            return (
+              <MenuItem key={nanoid(2)} value={item.value}>
+                {item.text}
+              </MenuItem>
+            );
           })}
         </Select>
       </Container>

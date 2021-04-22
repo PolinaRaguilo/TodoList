@@ -14,11 +14,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ModalWrapper from '../modal/Modal';
 import MenuCard from '../menu/menu';
-import { DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import EditForm from '../edit-form/Edit-form';
+import { nanoid } from 'nanoid';
+import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   root: {
@@ -100,19 +102,19 @@ const CardTodo = ({ items, setItems, item }) => {
   const [stateSelect, setState] = useState('');
   const [editModal, setEditModal] = useState(false);
 
-  const handleClick = (event) => {
-    setMenu(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setMenu(null);
-  };
-
   const selectValues = [
     { value: TODO, text: TODO },
     { value: IN_PROGRESS, text: IN_PROGRESS },
     { value: DONE, text: DONE },
   ];
+
+  const handleClickMenu = (event) => {
+    setMenu(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setMenu(null);
+  };
 
   const onChangeSelect = (e) => {
     setState(e.target.value);
@@ -145,13 +147,14 @@ const CardTodo = ({ items, setItems, item }) => {
     setOpenState(false);
   };
 
-  const onDelete = (id) => {
-    setItems([...items.filter((item) => item.id !== id)]);
-  };
-
-  const onDeleteHanlder = () => {
-    onDelete(item.id);
-    setOpenDelete(false);
+  const onDelete = async () => {
+    try {
+      await axios.delete(`${DB_URL}/items/${item.id}`);
+      setItems([...items.filter((todo) => todo.id !== item.id)]);
+      setOpenDelete(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const stateClass = () => {
@@ -180,27 +183,11 @@ const CardTodo = ({ items, setItems, item }) => {
             <Typography variant="body2" component="p">
               {item.description}
             </Typography>
-            <Button
-              className={classes.btn__change}
-              onClick={onOpenHandlerState}
-            >
-              State
-            </Button>
-            <DeleteIcon
-              className={classes.icon}
-              onClick={onOpenHandlerDelete}
-            />
+
+            <MoreVertIcon className={classes.icon} onClick={handleClickMenu} />
           </Container>
         </CardContent>
-        <Button onClick={handleClick} className={classes.btn__open}>
-          Open Menu
-        </Button>
       </Card>
-      <MenuCard
-        isOpen={menu}
-        onCloseMenu={handleClose}
-        onOpenEdit={setEditModal}
-      />
 
       <ModalWrapper isOpen={editModal} close={setEditModal}>
         <Typography className={classes.modal__title}>
@@ -214,10 +201,18 @@ const CardTodo = ({ items, setItems, item }) => {
         />
       </ModalWrapper>
 
-      <ModalWrapper isOpen={openDelete} close={setOpenDelete}>
+      <MenuCard
+        isOpen={menu}
+        onCloseMenu={handleCloseMenu}
+        openDelete={onOpenHandlerDelete}
+        openState={onOpenHandlerState}
+        onOpenEdit={setEditModal}
+      />
+
+      <ModalWrapper isOpen={openDelete} close={onCloseHandlerDelete}>
         <Typography className={classes.modal__title}>Are you sure?</Typography>
         <Container className={classes.btn__wrapper}>
-          <Button className={classes.btn__modal} onClick={onDeleteHanlder}>
+          <Button className={classes.btn__modal} onClick={onDelete}>
             Yes
           </Button>
           <Button className={classes.btn__modal} onClick={onCloseHandlerDelete}>
@@ -225,6 +220,7 @@ const CardTodo = ({ items, setItems, item }) => {
           </Button>
         </Container>
       </ModalWrapper>
+
       <Dialog
         disableBackdropClick
         disableEscapeKeyDown
@@ -237,7 +233,11 @@ const CardTodo = ({ items, setItems, item }) => {
             <FormControl className={classes.formControl}>
               <Select native value={stateSelect} onChange={onChangeSelect}>
                 {selectValues.map((item) => {
-                  return <option value={item.value}>{item.text}</option>;
+                  return (
+                    <option key={nanoid(2)} value={item.value}>
+                      {item.text}
+                    </option>
+                  );
                 })}
               </Select>
             </FormControl>
