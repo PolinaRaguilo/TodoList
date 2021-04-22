@@ -15,9 +15,8 @@ import {
 } from '@material-ui/core';
 import { useState } from 'react';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ModalWrapper from '../modal/Modal';
-import MenuCard from '../menu/menu';
-// import EditForm from '../edit-form/Edit-form';
+import ModalWrapper from '../modal';
+import MenuCard from '../menu';
 import { nanoid } from 'nanoid';
 import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import axios from 'axios';

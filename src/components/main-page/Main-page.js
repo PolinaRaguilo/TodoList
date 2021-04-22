@@ -10,10 +10,10 @@ import {
 } from '@material-ui/core';
 import { ALL, TODO, IN_PROGRESS, DONE, DB_URL } from '../../config/constants';
 
-import AddForm from '../add-form/add-form';
-import EditForm from '../edit-form/Edit-form';
-import CardTodo from '../card-todo/Card-todo';
-import Legend from '../legend/Legend';
+import AddForm from '../add-form';
+import EditForm from '../edit-form';
+import CardTodo from '../card-todo';
+import Legend from '../legend';
 import { nanoid } from 'nanoid';
 
 import { useEdit } from '../../hooks';
