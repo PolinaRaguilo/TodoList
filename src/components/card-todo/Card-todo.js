@@ -17,6 +17,7 @@ import { useState } from 'react';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ModalWrapper from '../modal/Modal';
 import MenuCard from '../menu/menu';
+import { nanoid } from 'nanoid';
 import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import axios from 'axios';
 
@@ -218,7 +219,11 @@ const CardTodo = ({ items, setItems, item }) => {
             <FormControl className={classes.formControl}>
               <Select native value={stateSelect} onChange={onChangeSelect}>
                 {selectValues.map((item) => {
-                  return <option value={item.value}>{item.text}</option>;
+                  return (
+                    <option key={nanoid(2)} value={item.value}>
+                      {item.text}
+                    </option>
+                  );
                 })}
               </Select>
             </FormControl>
