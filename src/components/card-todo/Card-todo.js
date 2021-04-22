@@ -189,6 +189,10 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
         openState={onOpenHandlerState}
         todoItemInf={item}
         onEdit={handleEdit}
+        onActionCloseDelete={onCloseHandlerDelete}
+        todoItems={items}
+        todoId={item.id}
+        setToDoItems={setItems}
       />
 
       <Dialog

@@ -6,6 +6,8 @@ import {
   Modal,
   Typography,
 } from '@material-ui/core';
+import axios from 'axios';
+import { DB_URL } from '../../config/constants';
 
 const useStyles = makeStyles({
   paper: {
@@ -38,35 +40,43 @@ const useStyles = makeStyles({
   },
 });
 
-const DeleteModal = ({ isOpenDelete, onActionOpenDelete, onActionDelete }) => {
+const DeleteModal = ({
+  isOpenDelete,
+  onActionCloseDelete,
+  todoItems,
+  todoId,
+  setToDoItems,
+  onActionDelete,
+}) => {
   const classes = useStyles();
 
-  // const onDelete = async () => {
-  //   try {
-  //     await axios.delete(`${DB_URL}/items/${item.id}`);
-  //     setItems([...items.filter((todo) => todo.id !== item.id)]);
-  //     setOpenDelete(false);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
+  const onDeleteClose = () => {
+    onActionCloseDelete();
+  };
+
+  const onDeleteHanlder = async () => {
+    try {
+      await axios.delete(`${DB_URL}/items/${todoId}`);
+      // setItems([...items.filter((todo) => todo.id !== item.id)]);
+      onDeleteClose();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // const onDeleteAction = () => {
+  //   onActionDelete();
   // };
 
-  const onDeleteAction = () => {
-    onActionDelete();
-  };
-
-  const onDeleteOpen = () => {
-    onActionOpenDelete();
-  };
   return (
-    <Modal open={isOpenDelete} onClose={onDeleteOpen}>
+    <Modal open={isOpenDelete} onClose={onDeleteClose}>
       <Container className={classes.paper}>
         <Typography className={classes.modal__title}>Are you sure?</Typography>
         <Container className={classes.btn__wrapper}>
-          <Button className={classes.btn__modal} onClick={onDeleteAction}>
+          <Button className={classes.btn__modal} onClick={onDeleteHanlder}>
             Yes
           </Button>
-          <Button className={classes.btn__modal} onClick={onDeleteOpen}>
+          <Button className={classes.btn__modal} onClick={onDeleteClose}>
             No
           </Button>
         </Container>
