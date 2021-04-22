@@ -97,9 +97,9 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
   const classes = useStyles();
 
   const [menu, setMenu] = useState(null);
-  // const [openDelete, setOpenDelete] = useState(false);
   const [openState, setOpenState] = useState(false);
   const [stateSelect, setState] = useState('');
+  const [openDelete, setOpenDelete] = useState(false);
 
   const selectValues = [
     { value: TODO, text: TODO },
@@ -152,7 +152,6 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
     }
   };
   const cardClass = stateClass();
-  const [openDelete, setOpenDelete] = useState(false);
 
   const onCloseHandlerDelete = () => {
     setOpenDelete(false);

@@ -17,7 +17,6 @@ import { nanoid } from 'nanoid';
 
 import { useEdit } from '../../hooks';
 import useData from '../../hooks/useData';
-// import DeleteModal from '../delete-modal/Delete-modal';
 
 const useStyles = makeStyles(() => ({
   main__title: {
@@ -48,7 +47,7 @@ const stateValues = [
 const MainPage = () => {
   const classes = useStyles();
   const [currentState, setCurrentState] = useState('All');
-  // const [openDelete, setOpenDelete] = useState(false);
+
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
 
   const { items, isLoading, setItems } = useData(`${DB_URL}/items`);

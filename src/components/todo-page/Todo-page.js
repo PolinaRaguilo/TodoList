@@ -6,8 +6,13 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
+import axios from 'axios';
 import { useState } from 'react';
+import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
+import { useEdit } from '../../hooks';
 import DeleteModal from '../delete-modal/Delete-modal';
+import EditForm from '../edit-form/Edit-form';
+import SelectCustom from '../select/Select';
 
 const useStyles = makeStyles({
   content__wrapper: {
@@ -36,11 +41,23 @@ const useStyles = makeStyles({
     display: 'block',
     marginBottom: 20,
   },
+  select: {
+    width: 200,
+  },
 });
+
+const stateValues = [
+  { value: TODO, text: TODO },
+  { value: IN_PROGRESS, text: IN_PROGRESS },
+  { value: DONE, text: DONE },
+];
 const TodoPage = (props) => {
   const classes = useStyles();
   const { state: todoItemInf } = props.location;
   const [openDelete, setOpenDelete] = useState(false);
+  const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
+
+  const [stateSelect, setState] = useState(todoItemInf.state);
 
   const onOpenHandlerDelete = () => {
     setOpenDelete(true);
@@ -48,6 +65,30 @@ const TodoPage = (props) => {
 
   const onCloseHandlerDelete = () => {
     setOpenDelete(false);
+  };
+
+  const onHandleDelete = () => {
+    console.log('hi');
+  };
+
+  const handleEditItems = () => {
+    console.log('edit!');
+  };
+
+  const onEdit = () => {
+    handleEdit(todoItemInf);
+  };
+
+  const onStateUpdate = async (newState) => {
+    await axios.put(`${DB_URL}/items/${todoItemInf.id}`, {
+      ...todoItemInf,
+      state: newState,
+    });
+  };
+
+  const onStateHandler = (newState) => {
+    onStateUpdate(newState);
+    setState();
   };
 
   return (
@@ -65,10 +106,7 @@ const TodoPage = (props) => {
             </Typography>
           </Card>
         </Container>
-        <Card
-          variant="outlined"
-          className={`${classes.card__big} ${todoItemInf.cardClass}`}
-        >
+        <Card variant="outlined" className={`${classes.card__big} `}>
           <CardContent>
             <Container>
               <Typography variant="body2" component="p">
@@ -78,17 +116,39 @@ const TodoPage = (props) => {
           </CardContent>
         </Card>
         <Container className={classes.actions__wrapper}>
-          <Button className={classes.btn}>Edit</Button>
+          <SelectCustom
+            className={classes.select}
+            values={stateValues}
+            stateValue={stateSelect}
+            setStateValue={onStateHandler}
+          />
+
+          <Button className={classes.btn} onClick={onEdit}>
+            Edit
+          </Button>
           <Button className={classes.btn} onClick={onOpenHandlerDelete}>
             Delete
           </Button>
         </Container>
       </Container>
-      <DeleteModal
-        isOpenDelete={openDelete}
-        onActionCloseDelete={onCloseHandlerDelete}
-        todoId={todoItemInf.id}
-      />
+      {openDelete && (
+        <DeleteModal
+          isOpenDelete={openDelete}
+          onClose={onCloseHandlerDelete}
+          todoId={todoItemInf.id}
+          handleDelete={onHandleDelete}
+        />
+      )}
+
+      {isEdit && (
+        <EditForm
+          open={isEdit}
+          onClose={onCloseEdit}
+          {...editData}
+          data={todoItemInf}
+          handleEdit={handleEditItems}
+        />
+      )}
     </>
   );
 };
