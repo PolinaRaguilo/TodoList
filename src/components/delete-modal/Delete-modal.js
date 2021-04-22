@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import axios from 'axios';
 import { DB_URL } from '../../config/constants';
-import useData from '../../hooks/useData';
+// import useData from '../../hooks/useData';
 
 const useStyles = makeStyles({
   paper: {
@@ -41,21 +41,23 @@ const useStyles = makeStyles({
   },
 });
 
-const DeleteModal = ({ isOpenDelete, onActionCloseDelete, todoId }) => {
+const DeleteModal = ({ isOpenDelete, onClose, todoId, handleDelete }) => {
   const classes = useStyles();
 
-  const { items, setItems } = useData(`${DB_URL}/items`);
+  // const { items, setItems } = useData(`${DB_URL}/items`);
 
   const onDeleteClose = () => {
-    onActionCloseDelete();
+    onClose();
   };
 
   const onDeleteHanlder = async () => {
     try {
       await axios.delete(`${DB_URL}/items/${todoId}`);
-      setItems([...items.filter((todo) => todo.id !== todoId)]);
+      handleDelete();
+      // setItems([...items.filter((todo) => todo.id !== todoId)]);
       onDeleteClose();
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
     }
   };

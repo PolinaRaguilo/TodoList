@@ -13,11 +13,12 @@ import {
 } from '@material-ui/core';
 import { useState } from 'react';
 
-import DeleteModal from '../delete-modal/Delete-modal';
+// import DeleteModal from '../delete-modal/Delete-modal';
 import MenuCard from '../menu/menu';
-import { DONE, IN_PROGRESS, TODO } from '../../config/constants';
+import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import SelectCustom from '../select/Select';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   root: {
@@ -91,11 +92,18 @@ const useStyles = makeStyles({
   },
 });
 
-const CardTodo = ({ items, setItems, item, onEdit }) => {
+const CardTodo = ({
+  items,
+  setItems,
+  item,
+  onEdit,
+  onOpenDelete,
+  handleDelete,
+}) => {
   const classes = useStyles();
 
   const [menu, setMenu] = useState(null);
-  const [openDelete, setOpenDelete] = useState(false);
+  // const [openDelete, setOpenDelete] = useState(false);
   const [openState, setOpenState] = useState(false);
   const [stateSelect, setState] = useState('');
 
@@ -113,14 +121,6 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
     setMenu(null);
   };
 
-  const onOpenHandlerDelete = () => {
-    setOpenDelete(true);
-  };
-
-  const onCloseHandlerDelete = () => {
-    setOpenDelete(false);
-  };
-
   const onOpenHandlerState = () => {
     setOpenState(true);
   };
@@ -132,6 +132,10 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
   const changeStateItem = () => {
     const newItems = items.map((todo) => {
       if (todo.id === item.id) {
+        axios.put(`${DB_URL}/items/${todo.id}`, {
+          ...todo,
+          state: stateSelect,
+        });
         return { ...todo, state: stateSelect };
       }
       return todo;
@@ -175,16 +179,10 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
         </CardContent>
       </Card>
 
-      <DeleteModal
-        isOpenDelete={openDelete}
-        onActionCloseDelete={onCloseHandlerDelete}
-        todoId={item.id}
-      />
-
       <MenuCard
         isOpen={menu}
         onCloseMenu={handleCloseMenu}
-        openDelete={onOpenHandlerDelete}
+        openDelete={onOpenDelete}
         openState={onOpenHandlerState}
         todoItemInf={item}
         onEdit={handleEdit}
