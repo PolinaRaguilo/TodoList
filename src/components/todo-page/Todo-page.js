@@ -50,7 +50,6 @@ const TodoPage = (props) => {
     setOpenDelete(false);
   };
 
-  console.log(props.location);
   return (
     <>
       <Container className={classes.content__wrapper}>
@@ -62,7 +61,7 @@ const TodoPage = (props) => {
           </Card>
           <Card variant="outlined" className={classes.card__little}>
             <Typography variant="h5" component="h2">
-              date
+              {todoItemInf.modifiedAt.split(',')[0]}
             </Typography>
           </Card>
         </Container>

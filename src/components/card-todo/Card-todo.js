@@ -170,7 +170,6 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
             <Typography variant="body2" component="p">
               {item.description}
             </Typography>
-
             <MoreVertIcon className={classes.icon} onClick={handleClickMenu} />
           </Container>
         </CardContent>

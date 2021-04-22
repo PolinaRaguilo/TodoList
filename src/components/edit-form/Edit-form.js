@@ -40,11 +40,12 @@ const useStyles = makeStyles({
 
 const EditForm = (props) => {
   const {
+    open,
     onClose,
+    handleEdit,
     title = '',
     description = '',
     id = null,
-    handleEdit,
     state,
     createdAt,
   } = props;
@@ -83,7 +84,7 @@ const EditForm = (props) => {
   };
 
   return (
-    <Modal isOpen close={onClose}>
+    <Modal open={open} onClose={onClose}>
       <Typography className={classes.modal__title}>Edit information</Typography>
       <form className={classes.root}>
         <TextField

@@ -117,6 +117,7 @@ const MainPage = () => {
       </Container>
       <Legend />
       <AddForm addItem={setItems} />
+
       {isEdit && (
         <EditForm
           open={isEdit}
