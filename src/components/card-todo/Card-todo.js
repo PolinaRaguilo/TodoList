@@ -19,6 +19,7 @@ import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import SelectCustom from '../select/Select';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import axios from 'axios';
+import DeleteModal from '../delete-modal/Delete-modal';
 
 const useStyles = makeStyles({
   root: {
@@ -92,14 +93,7 @@ const useStyles = makeStyles({
   },
 });
 
-const CardTodo = ({
-  items,
-  setItems,
-  item,
-  onEdit,
-  onOpenDelete,
-  handleDelete,
-}) => {
+const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
   const classes = useStyles();
 
   const [menu, setMenu] = useState(null);
@@ -158,11 +152,23 @@ const CardTodo = ({
     }
   };
   const cardClass = stateClass();
+  const [openDelete, setOpenDelete] = useState(false);
+
+  const onCloseHandlerDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const onOpenHandlerDelete = () => {
+    setOpenDelete(true);
+  };
 
   const handleEdit = () => {
     onEdit(item);
   };
 
+  const onHandleDelete = () => {
+    handleDelete(item.id);
+  };
   return (
     <>
       <Card className={cardClass} variant="outlined">
@@ -182,11 +188,20 @@ const CardTodo = ({
       <MenuCard
         isOpen={menu}
         onCloseMenu={handleCloseMenu}
-        openDelete={onOpenDelete}
+        openDelete={onOpenHandlerDelete}
         openState={onOpenHandlerState}
         todoItemInf={item}
         onEdit={handleEdit}
       />
+
+      {openDelete && (
+        <DeleteModal
+          isOpenDelete={openDelete}
+          onClose={onCloseHandlerDelete}
+          handleDelete={onHandleDelete}
+          todoId={item.id}
+        />
+      )}
 
       <Dialog
         disableBackdropClick

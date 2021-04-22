@@ -17,7 +17,7 @@ import { nanoid } from 'nanoid';
 
 import { useEdit } from '../../hooks';
 import useData from '../../hooks/useData';
-import DeleteModal from '../delete-modal/Delete-modal';
+// import DeleteModal from '../delete-modal/Delete-modal';
 
 const useStyles = makeStyles(() => ({
   main__title: {
@@ -48,7 +48,7 @@ const stateValues = [
 const MainPage = () => {
   const classes = useStyles();
   const [currentState, setCurrentState] = useState('All');
-  const [openDelete, setOpenDelete] = useState(false);
+  // const [openDelete, setOpenDelete] = useState(false);
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
 
   const { items, isLoading, setItems } = useData(`${DB_URL}/items`);
@@ -67,16 +67,8 @@ const MainPage = () => {
     });
   };
 
-  const onOpenHandlerDelete = () => {
-    setOpenDelete(true);
-  };
-
-  const onCloseHandlerDelete = () => {
-    setOpenDelete(false);
-  };
-
-  const handleDeleteItems = (id) => {
-    setItems([...items.filter((todo) => todo.id !== id)]);
+  const handleDeleteItems = (idDel) => {
+    setItems([...items.filter((todo) => todo.id !== idDel)]);
   };
 
   return (
@@ -118,7 +110,7 @@ const MainPage = () => {
                     setItems={setItems}
                     items={items}
                     onEdit={handleEdit}
-                    onOpenDelete={onOpenHandlerDelete}
+                    handleDelete={handleDeleteItems}
                   />
                 );
               })}
@@ -137,21 +129,6 @@ const MainPage = () => {
           handleEdit={handleEditItems}
         />
       )}
-
-      {openDelete && (
-        <DeleteModal
-          isOpenDelete={openDelete}
-          onClose={onCloseHandlerDelete}
-          handleDelete={handleDeleteItems}
-        />
-      )}
-      {/* <EditForm
-          open={isEdit}
-          onClose={onCloseEdit}
-          {...editData}
-          data={items}
-          handleEdit={handleEditItems}
-        /> */}
     </Container>
   );
 };
