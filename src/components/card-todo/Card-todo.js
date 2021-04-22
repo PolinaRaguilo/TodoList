@@ -12,11 +12,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
+
 import DeleteModal from '../delete-modal/Delete-modal';
 import MenuCard from '../menu/menu';
 import { DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import SelectCustom from '../select/Select';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const useStyles = makeStyles({
   root: {
@@ -71,12 +72,7 @@ const useStyles = makeStyles({
   done: {
     backgroundColor: '#bdbdbd',
   },
-  modal__title: {
-    fontSize: 20,
-    marginBottom: 20,
-    color: colors.grey[900],
-    textAlign: 'center',
-  },
+
   btn__wrapper: {
     display: 'flex',
   },
@@ -87,20 +83,18 @@ const useStyles = makeStyles({
     right: 0,
     cursor: 'pointer',
   },
+  modal__title: {
+    fontSize: 20,
+    marginBottom: 20,
+    color: colors.grey[900],
+    textAlign: 'center',
+  },
 });
 
-const CardTodo = ({ items, setItems, item }) => {
+const CardTodo = ({ items, setItems, item, onEdit }) => {
   const classes = useStyles();
 
   const [menu, setMenu] = useState(null);
-
-  const handleClick = (event) => {
-    setMenu(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setMenu(null);
-  };
   const [openDelete, setOpenDelete] = useState(false);
   const [openState, setOpenState] = useState(false);
   const [stateSelect, setState] = useState('');
@@ -110,6 +104,14 @@ const CardTodo = ({ items, setItems, item }) => {
     { value: IN_PROGRESS, text: IN_PROGRESS },
     { value: DONE, text: DONE },
   ];
+
+  const handleClickMenu = (event) => {
+    setMenu(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setMenu(null);
+  };
 
   const onOpenHandlerDelete = () => {
     setOpenDelete(true);
@@ -138,15 +140,6 @@ const CardTodo = ({ items, setItems, item }) => {
     setOpenState(false);
   };
 
-  const onDelete = (id) => {
-    setItems([...items.filter((item) => item.id !== id)]);
-  };
-
-  const onDeleteHanlder = () => {
-    onDelete(item.id);
-    setOpenDelete(false);
-  };
-
   const stateClass = () => {
     let classState = classes.root;
     switch (item.state) {
@@ -162,6 +155,10 @@ const CardTodo = ({ items, setItems, item }) => {
   };
   const cardClass = stateClass();
 
+  const handleEdit = () => {
+    onEdit(item);
+  };
+
   return (
     <>
       <Card className={cardClass} variant="outlined">
@@ -173,34 +170,25 @@ const CardTodo = ({ items, setItems, item }) => {
             <Typography variant="body2" component="p">
               {item.description}
             </Typography>
-            <Button
-              className={classes.btn__change}
-              onClick={onOpenHandlerState}
-            >
-              State
-            </Button>
-            <DeleteIcon
-              className={classes.icon}
-              onClick={onOpenHandlerDelete}
-            />
+
+            <MoreVertIcon className={classes.icon} onClick={handleClickMenu} />
           </Container>
         </CardContent>
-        <Button onClick={handleClick} className={classes.btn__open}>
-          Open Menu
-        </Button>
       </Card>
-
-      <MenuCard
-        isOpen={menu}
-        onCloseMenu={handleClose}
-        todoItemInf={item}
-        cardClass={cardClass}
-      />
 
       <DeleteModal
         isOpenDelete={openDelete}
         onActionOpenDelete={onCloseHandlerDelete}
-        onActionDelete={onDeleteHanlder}
+        // onActionDelete={onDeleteHanlder}
+      />
+
+      <MenuCard
+        isOpen={menu}
+        onCloseMenu={handleCloseMenu}
+        openDelete={onOpenHandlerDelete}
+        openState={onOpenHandlerState}
+        todoItemInf={item}
+        onEdit={handleEdit}
       />
 
       <Dialog

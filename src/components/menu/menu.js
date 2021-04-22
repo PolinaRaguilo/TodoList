@@ -1,10 +1,28 @@
 import { Menu, MenuItem } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-const MenuCard = ({ isOpen, onCloseMenu, todoItemInf, cardClass }) => {
-  const menuItems = ['Delete', 'Set state'];
-
+const MenuCard = ({
+  isOpen,
+  onCloseMenu,
+  openDelete,
+  openState,
+  onEdit,
+  todoItemInf,
+  cardClass,
+}) => {
   const onCloseHandler = () => {
+    onCloseMenu();
+  };
+  const stateHandler = () => {
+    openState();
+    onCloseMenu();
+  };
+  const deleteHandler = () => {
+    openDelete();
+    onCloseMenu();
+  };
+  const onEditOpen = () => {
+    onEdit();
     onCloseMenu();
   };
 
@@ -15,9 +33,9 @@ const MenuCard = ({ isOpen, onCloseMenu, todoItemInf, cardClass }) => {
       open={Boolean(isOpen)}
       onClose={onCloseHandler}
     >
-      {menuItems.map((item) => {
-        return <MenuItem onClick={onCloseHandler}>{item}</MenuItem>;
-      })}
+      <MenuItem onClick={onEditOpen}>Edit</MenuItem>
+      <MenuItem onClick={deleteHandler}>Delete</MenuItem>
+      <MenuItem onClick={stateHandler}>Set state</MenuItem>
       <MenuItem onClick={onCloseHandler}>
         <Link
           to={{

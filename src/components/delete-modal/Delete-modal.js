@@ -41,6 +41,16 @@ const useStyles = makeStyles({
 const DeleteModal = ({ isOpenDelete, onActionOpenDelete, onActionDelete }) => {
   const classes = useStyles();
 
+  // const onDelete = async () => {
+  //   try {
+  //     await axios.delete(`${DB_URL}/items/${item.id}`);
+  //     setItems([...items.filter((todo) => todo.id !== item.id)]);
+  //     setOpenDelete(false);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   const onDeleteAction = () => {
     onActionDelete();
   };

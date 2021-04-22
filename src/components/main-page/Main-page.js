@@ -11,8 +11,12 @@ import {
 import { ALL, TODO, IN_PROGRESS, DONE, DB_URL } from '../../config/constants';
 
 import AddForm from '../add-form/add-form';
+import EditForm from '../edit-form/Edit-form';
 import CardTodo from '../card-todo/Card-todo';
 import Legend from '../legend/Legend';
+import { nanoid } from 'nanoid';
+
+import { useEdit } from '../../hooks';
 
 const useStyles = makeStyles(() => ({
   main__title: {
@@ -33,10 +37,17 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const stateValues = [
+  { value: ALL, text: ALL },
+  { value: TODO, text: TODO },
+  { value: IN_PROGRESS, text: IN_PROGRESS },
+  { value: DONE, text: DONE },
+];
+
 const MainPage = () => {
   const classes = useStyles();
   const [currentState, setCurrentState] = useState('All');
-
+  const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
   const [items, setItems] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -56,15 +67,17 @@ const MainPage = () => {
     getData();
   }, []);
 
-  const stateValues = [
-    { value: ALL, text: ALL },
-    { value: TODO, text: TODO },
-    { value: IN_PROGRESS, text: IN_PROGRESS },
-    { value: DONE, text: DONE },
-  ];
-
   const handleChange = (event) => {
     setCurrentState(event.target.value);
+  };
+  const handleEditItems = (data) => {
+    const editedItemIdx = items.map(({ id }) => id).indexOf(data.id);
+
+    setItems((prev) => {
+      const temp = [...prev];
+      temp.splice(editedItemIdx, 1, data);
+      return temp;
+    });
   };
 
   return (
@@ -78,7 +91,11 @@ const MainPage = () => {
           onChange={handleChange}
         >
           {stateValues.map((item) => {
-            return <MenuItem value={item.value}>{item.text}</MenuItem>;
+            return (
+              <MenuItem key={nanoid(2)} value={item.value}>
+                {item.text}
+              </MenuItem>
+            );
           })}
         </Select>
       </Container>
@@ -101,6 +118,7 @@ const MainPage = () => {
                     item={item}
                     setItems={setItems}
                     items={items}
+                    onEdit={handleEdit}
                   />
                 );
               })}
@@ -109,6 +127,15 @@ const MainPage = () => {
       </Container>
       <Legend />
       <AddForm addItem={setItems} />
+      {isEdit && (
+        <EditForm
+          open={isEdit}
+          onClose={onCloseEdit}
+          {...editData}
+          data={items}
+          handleEdit={handleEditItems}
+        />
+      )}
     </Container>
   );
 };
