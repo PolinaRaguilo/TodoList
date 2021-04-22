@@ -22,7 +22,7 @@ const MenuCard = ({
     onCloseMenu();
   };
   const onEditOpen = () => {
-    onEdit(todoItemInf);
+    onEdit();
     onCloseMenu();
   };
 

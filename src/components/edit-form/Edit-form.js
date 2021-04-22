@@ -36,6 +36,16 @@ const useStyles = makeStyles({
     color: colors.grey[900],
     textAlign: 'center',
   },
+  paper: {
+    position: 'absolute',
+    top: '25%',
+    left: 0,
+    right: 0,
+    padding: '20px 10px 20px 10px',
+    width: '30%',
+    borderRadius: 10,
+    backgroundColor: colors.grey[100],
+  },
 });
 
 const EditForm = (props) => {
@@ -85,35 +95,39 @@ const EditForm = (props) => {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Typography className={classes.modal__title}>Edit information</Typography>
-      <form className={classes.root}>
-        <TextField
-          variant="outlined"
-          className={classes.input}
-          name="title"
-          value={editItem.title}
-          onChange={onHandleChange}
-        />
-        <TextField
-          variant="outlined"
-          className={classes.input}
-          name="description"
-          value={editItem.description}
-          onChange={onHandleChange}
-        />
-        <Container className={classes.flex__container}>
-          <Button
-            type="submit"
-            className={classes.button__add}
-            onClick={onUpdateHandler}
-          >
-            Save
-          </Button>
-          <Button className={classes.button__add} onClick={onClose}>
-            Cancel
-          </Button>
-        </Container>
-      </form>
+      <Container className={classes.paper}>
+        <Typography className={classes.modal__title}>
+          Edit information
+        </Typography>
+        <form className={classes.root}>
+          <TextField
+            variant="outlined"
+            className={classes.input}
+            name="title"
+            value={editItem.title}
+            onChange={onHandleChange}
+          />
+          <TextField
+            variant="outlined"
+            className={classes.input}
+            name="description"
+            value={editItem.description}
+            onChange={onHandleChange}
+          />
+          <Container className={classes.flex__container}>
+            <Button
+              type="submit"
+              className={classes.button__add}
+              onClick={onUpdateHandler}
+            >
+              Save
+            </Button>
+            <Button className={classes.button__add} onClick={onClose}>
+              Cancel
+            </Button>
+          </Container>
+        </form>
+      </Container>
     </Modal>
   );
 };

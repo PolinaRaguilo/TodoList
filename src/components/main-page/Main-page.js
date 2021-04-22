@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-// import axios from 'axios';
+import { useState } from 'react';
 import {
   CircularProgress,
   Container,
@@ -50,11 +49,7 @@ const MainPage = () => {
   const [currentState, setCurrentState] = useState('All');
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
 
-  const { items, isLoading, getData, setItems } = useData(`${DB_URL}/items`);
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const { items, isLoading, setItems } = useData(`${DB_URL}/items`);
 
   const handleChange = (event) => {
     setCurrentState(event.target.value);
