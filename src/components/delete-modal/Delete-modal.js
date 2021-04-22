@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import axios from 'axios';
 import { DB_URL } from '../../config/constants';
+import useData from '../../hooks/useData';
 
 const useStyles = makeStyles({
   paper: {
@@ -40,15 +41,10 @@ const useStyles = makeStyles({
   },
 });
 
-const DeleteModal = ({
-  isOpenDelete,
-  onActionCloseDelete,
-  todoItems,
-  todoId,
-  setToDoItems,
-  onActionDelete,
-}) => {
+const DeleteModal = ({ isOpenDelete, onActionCloseDelete, todoId }) => {
   const classes = useStyles();
+
+  const { items, setItems } = useData(`${DB_URL}/items`);
 
   const onDeleteClose = () => {
     onActionCloseDelete();
@@ -57,16 +53,12 @@ const DeleteModal = ({
   const onDeleteHanlder = async () => {
     try {
       await axios.delete(`${DB_URL}/items/${todoId}`);
-      // setItems([...items.filter((todo) => todo.id !== item.id)]);
+      setItems([...items.filter((todo) => todo.id !== todoId)]);
       onDeleteClose();
     } catch (err) {
       console.log(err);
     }
   };
-
-  // const onDeleteAction = () => {
-  //   onActionDelete();
-  // };
 
   return (
     <Modal open={isOpenDelete} onClose={onDeleteClose}>

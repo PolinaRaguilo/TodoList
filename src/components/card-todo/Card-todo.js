@@ -178,8 +178,8 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
 
       <DeleteModal
         isOpenDelete={openDelete}
-        onActionOpenDelete={onCloseHandlerDelete}
-        // onActionDelete={onDeleteHanlder}
+        onActionCloseDelete={onCloseHandlerDelete}
+        todoId={item.id}
       />
 
       <MenuCard
@@ -189,10 +189,6 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
         openState={onOpenHandlerState}
         todoItemInf={item}
         onEdit={handleEdit}
-        onActionCloseDelete={onCloseHandlerDelete}
-        todoItems={items}
-        todoId={item.id}
-        setToDoItems={setItems}
       />
 
       <Dialog

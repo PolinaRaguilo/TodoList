@@ -88,6 +88,7 @@ const TodoPage = (props) => {
       <DeleteModal
         isOpenDelete={openDelete}
         onActionCloseDelete={onCloseHandlerDelete}
+        todoId={todoItemInf.id}
       />
     </>
   );
