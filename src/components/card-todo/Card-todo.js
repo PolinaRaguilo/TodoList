@@ -17,6 +17,7 @@ import { useState } from 'react';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ModalWrapper from '../modal/Modal';
 import MenuCard from '../menu/menu';
+// import EditForm from '../edit-form/Edit-form';
 import { nanoid } from 'nanoid';
 import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import axios from 'axios';
@@ -74,12 +75,7 @@ const useStyles = makeStyles({
   done: {
     backgroundColor: '#bdbdbd',
   },
-  modal__title: {
-    fontSize: 20,
-    marginBottom: 20,
-    color: colors.grey[900],
-    textAlign: 'center',
-  },
+
   btn__wrapper: {
     display: 'flex',
   },
@@ -90,13 +86,18 @@ const useStyles = makeStyles({
     right: 0,
     cursor: 'pointer',
   },
+  modal__title: {
+    fontSize: 20,
+    marginBottom: 20,
+    color: colors.grey[900],
+    textAlign: 'center',
+  },
 });
 
-const CardTodo = ({ items, setItems, item }) => {
+const CardTodo = ({ items, setItems, item, onEdit }) => {
   const classes = useStyles();
 
   const [menu, setMenu] = useState(null);
-
   const [openDelete, setOpenDelete] = useState(false);
   const [openState, setOpenState] = useState(false);
   const [stateSelect, setState] = useState('');
@@ -171,6 +172,10 @@ const CardTodo = ({ items, setItems, item }) => {
   };
   const cardClass = stateClass();
 
+  const handleEdit = () => {
+    onEdit(item);
+  };
+
   return (
     <>
       <Card className={cardClass} variant="outlined">
@@ -188,11 +193,24 @@ const CardTodo = ({ items, setItems, item }) => {
         </CardContent>
       </Card>
 
+      {/* <ModalWrapper isOpen={editModal} close={setEditModal}>
+        <Typography className={classes.modal__title}>
+          Edit information
+        </Typography>
+        <EditForm
+          todo={item}
+          closeModal={handleEdit}
+          setItems={setItems}
+          items={items}
+        />
+      </ModalWrapper> */}
+
       <MenuCard
         isOpen={menu}
         onCloseMenu={handleCloseMenu}
         openDelete={onOpenHandlerDelete}
         openState={onOpenHandlerState}
+        onEdit={handleEdit}
       />
 
       <ModalWrapper isOpen={openDelete} close={onCloseHandlerDelete}>

@@ -1,6 +1,6 @@
 import { Menu, MenuItem } from '@material-ui/core';
 
-const MenuCard = ({ isOpen, onCloseMenu, openDelete, openState }) => {
+const MenuCard = ({ isOpen, onCloseMenu, openDelete, openState, onEdit }) => {
   const onCloseHandler = () => {
     onCloseMenu();
   };
@@ -12,6 +12,11 @@ const MenuCard = ({ isOpen, onCloseMenu, openDelete, openState }) => {
     openDelete();
     onCloseMenu();
   };
+  const onEditOpen = () => {
+    onEdit();
+    onCloseMenu();
+  };
+
   return (
     <Menu
       anchorEl={isOpen}
@@ -19,8 +24,9 @@ const MenuCard = ({ isOpen, onCloseMenu, openDelete, openState }) => {
       open={Boolean(isOpen)}
       onClose={onCloseHandler}
     >
-      <MenuItem onClick={deleteHandler}>{'Delete'}</MenuItem>
-      <MenuItem onClick={stateHandler}>{'Set state'}</MenuItem>
+      <MenuItem onClick={onEditOpen}>Edit</MenuItem>
+      <MenuItem onClick={deleteHandler}>Delete</MenuItem>
+      <MenuItem onClick={stateHandler}>Set state</MenuItem>
     </Menu>
   );
 };
