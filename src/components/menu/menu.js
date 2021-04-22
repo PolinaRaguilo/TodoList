@@ -1,10 +1,15 @@
 import { Menu, MenuItem } from '@material-ui/core';
-import { nanoid } from 'nanoid';
 
-const MenuCard = ({ isOpen, onCloseMenu }) => {
-  const menuItems = ['Delete', 'Set state'];
-
+const MenuCard = ({ isOpen, onCloseMenu, openDelete, openState }) => {
   const onCloseHandler = () => {
+    onCloseMenu();
+  };
+  const stateHandler = () => {
+    openState();
+    onCloseMenu();
+  };
+  const deleteHandler = () => {
+    openDelete();
     onCloseMenu();
   };
   return (
@@ -14,13 +19,8 @@ const MenuCard = ({ isOpen, onCloseMenu }) => {
       open={Boolean(isOpen)}
       onClose={onCloseHandler}
     >
-      {menuItems.map((item) => {
-        return (
-          <MenuItem key={nanoid(2)} onClick={onCloseHandler}>
-            {item}
-          </MenuItem>
-        );
-      })}
+      <MenuItem onClick={deleteHandler}>{'Delete'}</MenuItem>
+      <MenuItem onClick={stateHandler}>{'Set state'}</MenuItem>
     </Menu>
   );
 };
