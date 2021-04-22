@@ -83,6 +83,8 @@ const AddForm = ({ addItem }) => {
     const newToDo = {
       id: nanoid(5),
       state: 'ToDo',
+      createdAt: new Date().toLocaleString('ru'),
+      modifiedAt: new Date().toLocaleString('ru'),
       ...newItem,
     };
     try {
