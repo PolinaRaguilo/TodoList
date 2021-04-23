@@ -8,7 +8,6 @@ const MenuCard = ({
   openState,
   onEdit,
   todoItemInf,
-  cardClass,
 }) => {
   const onCloseHandler = () => {
     onCloseMenu();
@@ -37,14 +36,7 @@ const MenuCard = ({
       <MenuItem onClick={deleteHandler}>Delete</MenuItem>
       <MenuItem onClick={stateHandler}>Set state</MenuItem>
       <MenuItem onClick={onCloseHandler}>
-        <Link
-          to={{
-            pathname: `/todos/${todoItemInf.id}`,
-            state: { ...todoItemInf, cardClass },
-          }}
-        >
-          More information
-        </Link>
+        <Link to={`/todos/${todoItemInf.id}`}>More information</Link>
       </MenuItem>
     </Menu>
   );

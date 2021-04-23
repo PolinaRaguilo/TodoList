@@ -8,8 +8,10 @@ import {
 } from '@material-ui/core';
 import axios from 'axios';
 import { useState } from 'react';
+import { useParams } from 'react-router';
 import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import { useEdit } from '../../hooks';
+import useData from '../../hooks/useData';
 import DeleteModal from '../delete-modal/Delete-modal';
 import EditForm from '../edit-form/Edit-form';
 import SelectCustom from '../select/Select';
@@ -51,13 +53,19 @@ const stateValues = [
   { value: IN_PROGRESS, text: IN_PROGRESS },
   { value: DONE, text: DONE },
 ];
-const TodoPage = (props) => {
+const TodoPage = () => {
   const classes = useStyles();
-  const { state: todoItemInf } = props.location;
+  const { id: currentId } = useParams();
+
+  const { items: currentTodo, isLoading, setItems } = useData(
+    `${DB_URL}/items/${currentId}`,
+  );
+
   const [openDelete, setOpenDelete] = useState(false);
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
 
-  const [stateSelect, setState] = useState(todoItemInf.state);
+  const [stateSelect, setState] = useState(currentTodo.state);
+  console.log(currentTodo.state);
 
   const onOpenHandlerDelete = () => {
     setOpenDelete(true);
@@ -71,17 +79,17 @@ const TodoPage = (props) => {
     console.log('hi');
   };
 
-  const handleEditItems = () => {
-    console.log('edit!');
+  const handleEditItems = (data) => {
+    setItems(data);
   };
 
   const onEdit = () => {
-    handleEdit(todoItemInf);
+    handleEdit(currentTodo);
   };
 
   const onStateUpdate = async (newState) => {
-    await axios.put(`${DB_URL}/items/${todoItemInf.id}`, {
-      ...todoItemInf,
+    await axios.put(`${DB_URL}/items/${currentTodo.id}`, {
+      ...currentTodo,
       state: newState,
     });
   };
@@ -91,18 +99,27 @@ const TodoPage = (props) => {
     setState();
   };
 
+  if (isLoading) {
+    return (
+      <Typography variant="h5" component="h2">
+        Loading...
+      </Typography>
+    );
+  }
+
   return (
     <>
       <Container className={classes.content__wrapper}>
         <Container className={classes.titles__wrapper}>
           <Card variant="outlined" className={classes.card__little}>
             <Typography variant="h5" component="h2">
-              {todoItemInf.title}
+              {currentTodo.title}
             </Typography>
           </Card>
           <Card variant="outlined" className={classes.card__little}>
             <Typography variant="h5" component="h2">
-              {todoItemInf.modifiedAt.split(',')[0]}
+              {/* {currentTodo.modifiedAt.split(',')[0]} */}
+              {currentTodo.modifiedAt}
             </Typography>
           </Card>
         </Container>
@@ -110,7 +127,7 @@ const TodoPage = (props) => {
           <CardContent>
             <Container>
               <Typography variant="body2" component="p">
-                {todoItemInf.description}
+                {currentTodo.description}
               </Typography>
             </Container>
           </CardContent>
@@ -135,7 +152,7 @@ const TodoPage = (props) => {
         <DeleteModal
           isOpenDelete={openDelete}
           onClose={onCloseHandlerDelete}
-          todoId={todoItemInf.id}
+          todoId={currentTodo.id}
           handleDelete={onHandleDelete}
         />
       )}
@@ -145,7 +162,7 @@ const TodoPage = (props) => {
           open={isEdit}
           onClose={onCloseEdit}
           {...editData}
-          data={todoItemInf}
+          data={currentTodo}
           handleEdit={handleEditItems}
         />
       )}

@@ -10,6 +10,7 @@ const useData = (url) => {
       setLoading(true);
       const response = await axios.get(url);
       setItems(response.data);
+
       setLoading(false);
     } catch (err) {
       // eslint-disable-next-line no-console
