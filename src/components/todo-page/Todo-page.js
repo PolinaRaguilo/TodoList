@@ -15,6 +15,7 @@ import useData from '../../hooks/useData';
 import DeleteModal from '../delete-modal/Delete-modal';
 import EditForm from '../edit-form/Edit-form';
 import SelectCustom from '../select/Select';
+import CustomTabs from '../tabs/Tabs';
 
 const useStyles = makeStyles({
   content__wrapper: {
@@ -46,6 +47,9 @@ const useStyles = makeStyles({
   select: {
     width: 200,
   },
+  todoPage__wrapper: {
+    display: 'flex',
+  },
 });
 
 const stateValues = [
@@ -63,9 +67,6 @@ const TodoPage = () => {
 
   const [openDelete, setOpenDelete] = useState(false);
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
-
-  const [stateSelect, setState] = useState(currentTodo.state);
-  console.log(currentTodo.state);
 
   const onOpenHandlerDelete = () => {
     setOpenDelete(true);
@@ -88,15 +89,16 @@ const TodoPage = () => {
   };
 
   const onStateUpdate = async (newState) => {
-    await axios.put(`${DB_URL}/items/${currentTodo.id}`, {
+    const newData = {
       ...currentTodo,
       state: newState,
-    });
+    };
+    await axios.put(`${DB_URL}/items/${currentTodo.id}`, newData);
+    setItems(newData);
   };
 
   const onStateHandler = (newState) => {
     onStateUpdate(newState);
-    setState();
   };
 
   if (isLoading) {
@@ -108,7 +110,8 @@ const TodoPage = () => {
   }
 
   return (
-    <>
+    <Container className={classes.todoPage__wrapper}>
+      <CustomTabs />
       <Container className={classes.content__wrapper}>
         <Container className={classes.titles__wrapper}>
           <Card variant="outlined" className={classes.card__little}>
@@ -136,7 +139,7 @@ const TodoPage = () => {
           <SelectCustom
             className={classes.select}
             values={stateValues}
-            stateValue={stateSelect}
+            stateValue={currentTodo.state}
             setStateValue={onStateHandler}
           />
 
@@ -166,7 +169,7 @@ const TodoPage = () => {
           handleEdit={handleEditItems}
         />
       )}
-    </>
+    </Container>
   );
 };
 
