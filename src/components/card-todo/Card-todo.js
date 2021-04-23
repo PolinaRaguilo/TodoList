@@ -136,20 +136,11 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
     setOpenState(false);
   };
 
-  const stateClass = () => {
-    let classState = classes.root;
-    switch (item.state) {
-      case TODO:
-        return classState + ` ${classes.todo}`;
-      case IN_PROGRESS:
-        return classState + ` ${classes.inProgress}`;
-      case DONE:
-        return classState + ` ${classes.done}`;
-      default:
-        return classState;
-    }
+  const stateClasses = {
+    [TODO]: classes.todo,
+    [IN_PROGRESS]: classes.inProgress,
+    [DONE]: classes.done,
   };
-  const cardClass = stateClass();
 
   const onCloseHandlerDelete = () => {
     setOpenDelete(false);
@@ -168,7 +159,10 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
   };
   return (
     <>
-      <Card className={cardClass} variant="outlined">
+      <Card
+        className={`${stateClasses[item.state]} ${classes.root}`}
+        variant="outlined"
+      >
         <CardContent>
           <Typography variant="h5" component="h2">
             {item.title}

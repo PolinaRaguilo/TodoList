@@ -5,19 +5,14 @@ import useData from '../../hooks/useData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    height: '100vh',
     backgroundColor: theme.palette.background.paper,
-    width: 400,
-    borderRadius: 10,
-    position: 'absolute',
-    top: 30,
-    left: 30,
   },
   tabs: {
     backgroundColor: colors.grey[600],
   },
   singleTab: {
-    minWidth: 100,
+    minWidth: 'auto',
     padding: 0,
   },
 }));
@@ -26,13 +21,7 @@ function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
+    <div hidden={value !== index} id={`simple-tabpanel-${index}`} {...other}>
       {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
@@ -46,16 +35,19 @@ const CustomTabs = () => {
   // eslint-disable-next-line no-unused-vars
   let forFilter = items;
 
-  console.log(items);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} className={classes.tabs}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          className={classes.tabs}
+          variant="fullWidth"
+        >
           <Tab label="All" className={classes.singleTab} />
           <Tab label="ToDo" className={classes.singleTab} />
           <Tab label="In progress" className={classes.singleTab} />
@@ -76,7 +68,7 @@ const CustomTabs = () => {
       <TabPanel value={value} index={3}>
         Item four
       </TabPanel>
-    </div>
+    </Box>
   );
 };
 

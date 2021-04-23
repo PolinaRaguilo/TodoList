@@ -1,5 +1,5 @@
 import { BrowserRouter, Route } from 'react-router-dom';
-import TodoPage from './components/todo-page';
+import TodoLayout from './layouts/TodoLayout';
 
 import MainPage from './components/main-page';
 import ThemeProvider from './styles/ThemeProvider';
@@ -9,7 +9,7 @@ const App = () => {
     <BrowserRouter>
       <ThemeProvider>
         <Route exact path="/" component={MainPage} />
-        <Route path="/todos/:id" component={TodoPage} />
+        <Route path="/todos/:id" component={TodoLayout} />
       </ThemeProvider>
     </BrowserRouter>
   );

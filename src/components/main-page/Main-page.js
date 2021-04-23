@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   CircularProgress,
   Container,
+  Box,
   makeStyles,
   Typography,
   MenuItem,
@@ -71,7 +72,7 @@ const MainPage = () => {
   };
 
   return (
-    <Container>
+    <Box>
       <Container className={classes.wrapper}>
         <Typography className={classes.main__title}>ToDo List</Typography>
         <Select
@@ -128,7 +129,7 @@ const MainPage = () => {
           handleEdit={handleEditItems}
         />
       )}
-    </Container>
+    </Box>
   );
 };
 

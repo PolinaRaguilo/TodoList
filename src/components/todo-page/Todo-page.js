@@ -2,7 +2,7 @@ import {
   Button,
   Card,
   CardContent,
-  Container,
+  Box,
   makeStyles,
   Typography,
 } from '@material-ui/core';
@@ -15,7 +15,7 @@ import useData from '../../hooks/useData';
 import DeleteModal from '../delete-modal/Delete-modal';
 import EditForm from '../edit-form/Edit-form';
 import SelectCustom from '../select/Select';
-import CustomTabs from '../tabs/Tabs';
+// import CustomTabs from '../tabs/Tabs';
 
 const useStyles = makeStyles({
   content__wrapper: {
@@ -77,6 +77,7 @@ const TodoPage = () => {
   };
 
   const onHandleDelete = () => {
+    // eslint-disable-next-line no-console
     console.log('hi');
   };
 
@@ -110,10 +111,9 @@ const TodoPage = () => {
   }
 
   return (
-    <Container className={classes.todoPage__wrapper}>
-      <CustomTabs />
-      <Container className={classes.content__wrapper}>
-        <Container className={classes.titles__wrapper}>
+    <>
+      <Box className={classes.content__wrapper}>
+        <Box className={classes.titles__wrapper}>
           <Card variant="outlined" className={classes.card__little}>
             <Typography variant="h5" component="h2">
               {currentTodo.title}
@@ -125,17 +125,17 @@ const TodoPage = () => {
               {currentTodo.modifiedAt}
             </Typography>
           </Card>
-        </Container>
+        </Box>
         <Card variant="outlined" className={`${classes.card__big} `}>
           <CardContent>
-            <Container>
+            <Box>
               <Typography variant="body2" component="p">
                 {currentTodo.description}
               </Typography>
-            </Container>
+            </Box>
           </CardContent>
         </Card>
-        <Container className={classes.actions__wrapper}>
+        <Box className={classes.actions__wrapper}>
           <SelectCustom
             className={classes.select}
             values={stateValues}
@@ -149,8 +149,8 @@ const TodoPage = () => {
           <Button className={classes.btn} onClick={onOpenHandlerDelete}>
             Delete
           </Button>
-        </Container>
-      </Container>
+        </Box>
+      </Box>
       {openDelete && (
         <DeleteModal
           isOpenDelete={openDelete}
@@ -169,7 +169,7 @@ const TodoPage = () => {
           handleEdit={handleEditItems}
         />
       )}
-    </Container>
+    </>
   );
 };
 

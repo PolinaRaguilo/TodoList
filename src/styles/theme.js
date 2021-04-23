@@ -16,10 +16,10 @@ const theme = createMuiTheme({
     MuiCssBaseline: {
       '@global': {
         body: {
-          margin: '0 auto',
           backgroundColor: palette.background.main,
           color: palette.text.main,
-          width: '50%',
+          maxWidth: 1400,
+          margin: '0px auto',
         },
       },
     },
@@ -27,7 +27,6 @@ const theme = createMuiTheme({
       root: {
         backgroundColor: colors.grey[100],
         marginBottom: 20,
-        width: 500,
       },
     },
 

@@ -1,7 +1,7 @@
 import {
   Button,
   colors,
-  Container,
+  Box,
   makeStyles,
   Modal,
   TextField,
@@ -12,23 +12,21 @@ import { useState } from 'react';
 import { DB_URL } from '../../config/constants';
 
 const useStyles = makeStyles({
-  root: {
-    textAlign: 'center',
-  },
+  root: {},
   button__add: {
     backgroundColor: colors.grey[900],
     color: colors.grey[100],
-    display: 'block',
-    margin: '0 auto',
+    width: 160,
     '&:hover': {
       backgroundColor: colors.grey[700],
     },
   },
   input: {
-    width: 'auto',
+    marginBottom: 32,
   },
-  flex__container: {
+  buttonContainer: {
     display: 'flex',
+    justifyContent: 'space-between',
   },
   modal__title: {
     fontSize: 20,
@@ -38,10 +36,10 @@ const useStyles = makeStyles({
   },
   paper: {
     position: 'absolute',
-    top: '25%',
-    left: 0,
-    right: 0,
-    padding: '20px 10px 20px 10px',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    padding: '32px 24px',
     width: '30%',
     borderRadius: 10,
     backgroundColor: colors.grey[100],
@@ -95,26 +93,27 @@ const EditForm = (props) => {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Container className={classes.paper}>
+      <Box className={classes.paper}>
         <Typography className={classes.modal__title}>
           Edit information
         </Typography>
         <form className={classes.root}>
           <TextField
+            fullWidth
             variant="outlined"
-            className={classes.input}
             name="title"
             value={editItem.title}
             onChange={onHandleChange}
           />
           <TextField
+            fullWidth
             variant="outlined"
-            className={classes.input}
             name="description"
+            className={classes.input}
             value={editItem.description}
             onChange={onHandleChange}
           />
-          <Container className={classes.flex__container}>
+          <Box className={classes.buttonContainer}>
             <Button
               type="submit"
               className={classes.button__add}
@@ -125,9 +124,9 @@ const EditForm = (props) => {
             <Button className={classes.button__add} onClick={onClose}>
               Cancel
             </Button>
-          </Container>
+          </Box>
         </form>
-      </Container>
+      </Box>
     </Modal>
   );
 };
