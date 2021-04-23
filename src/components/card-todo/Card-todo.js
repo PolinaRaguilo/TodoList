@@ -17,7 +17,7 @@ import MenuCard from '../menu';
 import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import SelectCustom from '../select/Select';
 import axios from 'axios';
-import DeleteModal from '../delete-modal/Delete-modal';
+import DeleteModal from '../delete-modal';
 
 const useStyles = makeStyles({
   root: {
