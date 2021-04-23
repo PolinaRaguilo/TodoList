@@ -12,12 +12,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
-
-// import DeleteModal from '../delete-modal/Delete-modal';
-import MenuCard from '../menu/menu';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuCard from '../menu';
 import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import SelectCustom from '../select/Select';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import axios from 'axios';
 import DeleteModal from '../delete-modal/Delete-modal';
 

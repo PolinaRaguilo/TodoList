@@ -1,6 +1,7 @@
 import { BrowserRouter, Route } from 'react-router-dom';
-import MainPage from './components/main-page/Main-page';
-import TodoPage from './components/todo-page/Todo-page';
+import TodoPage from './components/todo-page';
+
+import MainPage from './components/main-page';
 import ThemeProvider from './styles/ThemeProvider';
 
 const App = () => {
