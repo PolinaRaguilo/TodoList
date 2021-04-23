@@ -5,8 +5,6 @@ const SelectCustom = ({ className, values, stateValue, setStateValue }) => {
     setStateValue(e.target.value);
   };
 
-  console.log('[MY] stateValue >>>', stateValue);
-
   return (
     <form>
       <FormControl>
