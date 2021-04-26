@@ -26,11 +26,6 @@ const useStyles = makeStyles((theme) => ({
   list: {
     width: 'unset',
   },
-  listItem: {
-    '&:focus': {
-      backgroundColor: colors.grey[300],
-    },
-  },
   link: {
     textDecoration: 'none',
     width: '100%',
@@ -98,7 +93,7 @@ const CustomTabs = () => {
       <TabPanel value={value} index={0}>
         {forFilter.map((it) => {
           return (
-            <ListItem key={nanoid(3)} button className={classes.listItem}>
+            <ListItem key={nanoid(3)} button>
               <Link to={`/todos/${it.id}`} className={classes.link}>
                 <ListItemText className={classes.text}>{it.title}</ListItemText>
               </Link>
