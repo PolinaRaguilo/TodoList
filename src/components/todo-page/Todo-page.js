@@ -102,6 +102,8 @@ const TodoPage = () => {
     onStateUpdate(newState);
   };
 
+  console.log(currentId);
+
   if (isLoading) {
     return (
       <Typography variant="h5" component="h2">
@@ -109,6 +111,7 @@ const TodoPage = () => {
       </Typography>
     );
   }
+
   return (
     <>
       <Box className={classes.content__wrapper}>

@@ -5,6 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import useData from '../../hooks/useData';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,16 +22,29 @@ const useStyles = makeStyles((theme) => ({
   text: {
     color: 'black',
   },
+  list: {
+    width: 'unset',
+  },
+  listItem: {
+    '&:focus': {
+      backgroundColor: colors.grey[300],
+    },
+  },
+  link: {
+    textDecoration: 'none',
+    width: '100%',
+  },
 }));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
+  const classes = useStyles();
 
   return (
     <div hidden={value !== index} id={`simple-tabpanel-${index}`} {...other}>
       {value === index && (
         <Box p={3}>
-          <List>{children}</List>
+          <List className={classes.list}>{children}</List>
         </Box>
       )}
     </div>
@@ -47,6 +61,22 @@ const CustomTabs = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const listTodos = (param) => {
+    let list;
+    forFilter
+      .filter((item) => item.state === param)
+      .map((it) => {
+        list = (
+          <ListItem button className={classes.listItem}>
+            <Link to={`/todos/${it.id}`} className={classes.link}>
+              <ListItemText className={classes.text}>{it.title}</ListItemText>
+            </Link>
+          </ListItem>
+        );
+      });
+    return list;
   };
 
   return (
@@ -67,44 +97,22 @@ const CustomTabs = () => {
       <TabPanel value={value} index={0}>
         {forFilter.map((it) => {
           return (
-            <ListItem button>
-              <ListItemText className={classes.text}>{it.title}</ListItemText>
+            <ListItem button className={classes.listItem}>
+              <Link to={`/todos/${it.id}`} className={classes.link}>
+                <ListItemText className={classes.text}>{it.title}</ListItemText>
+              </Link>
             </ListItem>
           );
         })}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {forFilter
-          .filter((item) => item.state === TODO)
-          .map((it) => {
-            return (
-              <ListItem button>
-                <ListItemText className={classes.text}>{it.title}</ListItemText>
-              </ListItem>
-            );
-          })}
+        {listTodos(TODO)}
       </TabPanel>
       <TabPanel value={value} index={2}>
-        {forFilter
-          .filter((item) => item.state === IN_PROGRESS)
-          .map((it) => {
-            return (
-              <ListItem button>
-                <ListItemText className={classes.text}>{it.title}</ListItemText>
-              </ListItem>
-            );
-          })}
+        {listTodos(IN_PROGRESS)}
       </TabPanel>
       <TabPanel value={value} index={3}>
-        {forFilter
-          .filter((item) => item.state === DONE)
-          .map((it) => {
-            return (
-              <ListItem button>
-                <ListItemText className={classes.text}>{it.title}</ListItemText>
-              </ListItem>
-            );
-          })}
+        {listTodos(DONE)}
       </TabPanel>
     </Box>
   );
