@@ -4,7 +4,7 @@
       "title": "Reading1278l6",
       "description": "1 book23888",
       "id": "Zajnm",
-      "state": "ToDo",
+      "state": "In progress",
       "createdAt": "22.04.2021, 10:43:09",
       "modifiedAt": "23.04.2021, 12:19:33"
     },
@@ -18,7 +18,7 @@
     },
     {
       "id": "laRaT",
-      "state": "Done",
+      "state": "ToDo",
       "createdAt": "23.04.2021, 13:47:13",
       "modifiedAt": "23.04.2021, 13:47:13",
       "title": "sport",

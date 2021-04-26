@@ -96,7 +96,7 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
 
   const [menu, setMenu] = useState(null);
   const [openState, setOpenState] = useState(false);
-  const [stateSelect, setState] = useState('');
+  const [stateSelect, setState] = useState(item.state);
   const [openDelete, setOpenDelete] = useState(false);
 
   const selectValues = [
