@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import { useEdit } from '../../hooks';
@@ -61,9 +61,13 @@ const TodoPage = () => {
   const classes = useStyles();
   const { id: currentId } = useParams();
 
-  const { items: currentTodo, isLoading, setItems } = useData(
+  const { items: currentTodo, isLoading, setItems, getData } = useData(
     `${DB_URL}/items/${currentId}`,
   );
+
+  useEffect(() => {
+    getData(`${DB_URL}/items/${currentId}`);
+  }, [currentId]);
 
   const [openDelete, setOpenDelete] = useState(false);
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
@@ -101,8 +105,6 @@ const TodoPage = () => {
   const onStateHandler = (newState) => {
     onStateUpdate(newState);
   };
-
-  console.log(currentId);
 
   if (isLoading) {
     return (

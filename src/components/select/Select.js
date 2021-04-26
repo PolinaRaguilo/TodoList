@@ -14,8 +14,12 @@ const SelectCustom = ({ className, values, stateValue, setStateValue }) => {
           value={stateValue}
           onChange={setStateHandler}
         >
-          {values.map((item) => {
-            return <option value={item.value}>{item.text}</option>;
+          {values.map((item, i) => {
+            return (
+              <option value={item.value} key={i}>
+                {item.text}
+              </option>
+            );
           })}
         </Select>
       </FormControl>

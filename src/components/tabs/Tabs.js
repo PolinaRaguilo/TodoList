@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import useData from '../../hooks/useData';
 import { Link } from 'react-router-dom';
+import { nanoid } from 'nanoid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +70,7 @@ const CustomTabs = () => {
       .filter((item) => item.state === param)
       .map((it) => {
         list = (
-          <ListItem button className={classes.listItem}>
+          <ListItem key={nanoid(3)} button className={classes.listItem}>
             <Link to={`/todos/${it.id}`} className={classes.link}>
               <ListItemText className={classes.text}>{it.title}</ListItemText>
             </Link>
@@ -97,7 +98,7 @@ const CustomTabs = () => {
       <TabPanel value={value} index={0}>
         {forFilter.map((it) => {
           return (
-            <ListItem button className={classes.listItem}>
+            <ListItem key={nanoid(3)} button className={classes.listItem}>
               <Link to={`/todos/${it.id}`} className={classes.link}>
                 <ListItemText className={classes.text}>{it.title}</ListItemText>
               </Link>
