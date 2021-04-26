@@ -109,7 +109,6 @@ const TodoPage = () => {
       </Typography>
     );
   }
-
   return (
     <>
       <Box className={classes.content__wrapper}>
