@@ -7,7 +7,11 @@ import {
   Typography,
   MenuItem,
   Select,
+  TextField,
+  Box,
+  Button,
 } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ALL, TODO, IN_PROGRESS, DONE, DB_URL } from '../../config/constants';
 
 import AddForm from '../add-form';
@@ -35,6 +39,20 @@ const useStyles = makeStyles(() => ({
     height: 40,
     marginRight: 45,
   },
+  searchField: {
+    width: 400,
+  },
+  searchWrapper: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: '0 20px',
+  },
+  btn__search: {
+    marginBottom: 20,
+    width: 150,
+    height: 50,
+  },
 }));
 
 const stateValues = [
@@ -50,6 +68,8 @@ const MainPage = () => {
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
   const [items, setItems] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResult] = useState([]);
 
   const getData = async () => {
     try {
@@ -80,6 +100,18 @@ const MainPage = () => {
     });
   };
 
+  const onChangeSearchHandler = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const onSearch = () => {
+    setSearchResult(
+      items.filter((item) =>
+        item.title.toLowerCase().includes(searchText.toLowerCase()),
+      ),
+    );
+  };
+  console.log(searchResults);
   return (
     <Container>
       <Container className={classes.wrapper}>
@@ -101,14 +133,44 @@ const MainPage = () => {
       </Container>
 
       <Container>
+        <Box className={classes.searchWrapper}>
+          <Autocomplete
+            className={classes.searchField}
+            freeSolo
+            options={items.map((option) => option.title)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Search..."
+                margin="normal"
+                variant="outlined"
+                onChange={onChangeSearchHandler}
+              />
+            )}
+          />
+          <Button className={classes.btn__search} onClick={onSearch}>
+            Search
+          </Button>
+        </Box>
+
         {isLoading ? (
           <CircularProgress />
         ) : (
           <Container>
-            {items
-              .reverse()
-              .slice(items.length < 5 ? items : items.length - 5)
-              .reverse()
+            {(searchResults.length === 0
+              ? items
+                  .reverse()
+                  .slice(items.length < 5 ? items : items.length - 5)
+                  .reverse()
+              : searchResults
+                  .reverse()
+                  .slice(
+                    searchResults.length < 5
+                      ? searchResults
+                      : searchResults.length - 5,
+                  )
+                  .reverse()
+            )
               .filter((todoItem) =>
                 currentState === ALL
                   ? todoItem

@@ -35,7 +35,7 @@ const theme = createMuiTheme({
       root: {
         backgroundColor: colors.grey[100],
         width: 200,
-        marginRight: 200,
+
         '&:hover': {
           backgroundColor: colors.grey[300],
         },
