@@ -136,6 +136,7 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
       return todo;
     });
     setItems(newItems);
+
     setOpenState(false);
   };
 

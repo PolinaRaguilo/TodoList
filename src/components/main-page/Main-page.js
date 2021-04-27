@@ -69,8 +69,16 @@ const MainPage = () => {
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
   const [searchText, setSearchText] = useState('');
 
-  const { items, isLoading, setItems } = useData(`${DB_URL}/items`);
-  const [searchResults, setSearchResult] = useState(null);
+  const { items, isLoading, getData, setItems, searchResults } = useData(
+    `${DB_URL}/items`,
+  );
+
+  // useEffect(() => {
+  //   getData();
+  // }, [editData]);
+  // const [searchResults, setSearchResult] = useState(null);
+
+  console.log(searchResults);
 
   const handleChange = (event) => {
     setCurrentState(event.target.value);
@@ -92,22 +100,20 @@ const MainPage = () => {
 
   const onSearch = () => {
     if (searchText !== '') {
-      setSearchResult(
-        items.filter((item) =>
+      setItems(
+        searchResults.filter((item) =>
           item.title.toLowerCase().includes(searchText.toLowerCase()),
         ),
       );
     } else {
-      setSearchResult(items);
+      setItems(searchResults);
     }
-    console.log(searchResults);
   };
 
   const handleDeleteItems = (idDel) => {
-    setItems([...items.filter((todo) => todo.id !== idDel)]);
+    setItems([...searchResults.filter((todo) => todo.id !== idDel)]);
+    getData();
   };
-
-  const showItems = searchResults === null ? items : searchResults;
 
   return (
     <Box>
@@ -154,9 +160,9 @@ const MainPage = () => {
           <CircularProgress />
         ) : (
           <Container>
-            {showItems
+            {items
               .reverse()
-              .slice(showItems.length < 5 ? showItems : showItems.length - 5)
+              .slice(items.length < 5 ? items : items.length - 5)
               .reverse()
               .filter((todoItem) =>
                 currentState === ALL

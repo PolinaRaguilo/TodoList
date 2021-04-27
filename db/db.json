@@ -50,19 +50,11 @@
     },
     {
       "id": "luKut",
-      "state": "ToDo",
+      "state": "Done",
       "createdAt": "27.04.2021, 11:24:45",
       "modifiedAt": "27.04.2021, 11:24:45",
       "title": "6",
       "description": "6"
-    },
-    {
-      "id": "j4KBl",
-      "state": "ToDo",
-      "createdAt": "27.04.2021, 11:28:56",
-      "modifiedAt": "27.04.2021, 11:28:56",
-      "title": "l",
-      "description": "l"
     },
     {
       "id": "2Qoh8",
@@ -73,68 +65,20 @@
       "description": "read a magazine"
     },
     {
-      "id": "Q9_3d",
-      "state": "ToDo",
-      "createdAt": "27.04.2021, 13:40:34",
-      "modifiedAt": "27.04.2021, 13:40:34",
-      "title": "Reading2",
-      "description": "6"
-    },
-    {
+      "title": "reading35",
+      "description": "j",
       "id": "VQhge",
-      "state": "ToDo",
+      "state": "Done",
       "createdAt": "27.04.2021, 13:41:38",
-      "modifiedAt": "27.04.2021, 13:41:38",
-      "title": "reading3",
-      "description": "j"
+      "modifiedAt": "27.04.2021, 21:47:57"
     },
     {
       "id": "ucMyS",
-      "state": "ToDo",
+      "state": "In progress",
       "createdAt": "27.04.2021, 13:41:47",
       "modifiedAt": "27.04.2021, 13:41:47",
       "title": "reading4",
       "description": "ddf"
-    },
-    {
-      "id": "mj0DP",
-      "state": "Done",
-      "createdAt": "27.04.2021, 13:41:55",
-      "modifiedAt": "27.04.2021, 13:41:55",
-      "title": "reading5",
-      "description": "fjdskf"
-    },
-    {
-      "id": "kgmyl",
-      "state": "In progress",
-      "createdAt": "27.04.2021, 13:42:02",
-      "modifiedAt": "27.04.2021, 13:42:02",
-      "title": "reading6",
-      "description": "jkdkdjg"
-    },
-    {
-      "id": "XGwmj",
-      "state": "ToDo",
-      "createdAt": "27.04.2021, 13:42:32",
-      "modifiedAt": "27.04.2021, 13:42:32",
-      "title": "1237",
-      "description": "7"
-    },
-    {
-      "id": "VgF-1",
-      "state": "Done",
-      "createdAt": "27.04.2021, 13:44:47",
-      "modifiedAt": "27.04.2021, 13:44:47",
-      "title": "9",
-      "description": "9"
-    },
-    {
-      "id": "hQvYU",
-      "state": "In progress",
-      "createdAt": "27.04.2021, 13:45:28",
-      "modifiedAt": "27.04.2021, 13:45:28",
-      "title": "98",
-      "description": "89"
     }
   ]
 }
