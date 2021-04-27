@@ -89,6 +89,9 @@ const useStyles = makeStyles({
     color: colors.grey[900],
     textAlign: 'center',
   },
+  select: {
+    width: 350,
+  },
 });
 
 const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
@@ -203,6 +206,7 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
         <DialogTitle>Select state </DialogTitle>
         <DialogContent>
           <SelectCustom
+            className={classes.select}
             values={selectValues}
             stateValue={stateSelect}
             setStateValue={setState}

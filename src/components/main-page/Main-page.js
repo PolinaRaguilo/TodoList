@@ -67,12 +67,10 @@ const MainPage = () => {
   const [currentState, setCurrentState] = useState('All');
 
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
-  // const [items, setItems] = useState([]);
-  // const [isLoading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState('');
-  const [searchResults, setSearchResult] = useState([]);
 
   const { items, isLoading, setItems } = useData(`${DB_URL}/items`);
+  const [searchResults, setSearchResult] = useState(null);
 
   const handleChange = (event) => {
     setCurrentState(event.target.value);
@@ -93,16 +91,23 @@ const MainPage = () => {
   };
 
   const onSearch = () => {
-    setSearchResult(
-      items.filter((item) =>
-        item.title.toLowerCase().includes(searchText.toLowerCase()),
-      ),
-    );
+    if (searchText !== '') {
+      setSearchResult(
+        items.filter((item) =>
+          item.title.toLowerCase().includes(searchText.toLowerCase()),
+        ),
+      );
+    } else {
+      setSearchResult(items);
+    }
+    console.log(searchResults);
   };
 
   const handleDeleteItems = (idDel) => {
     setItems([...items.filter((todo) => todo.id !== idDel)]);
   };
+
+  const showItems = searchResults === null ? items : searchResults;
 
   return (
     <Box>
@@ -149,20 +154,10 @@ const MainPage = () => {
           <CircularProgress />
         ) : (
           <Container>
-            {(searchResults.length === 0
-              ? items
-                  .reverse()
-                  .slice(items.length < 5 ? items : items.length - 5)
-                  .reverse()
-              : searchResults
-                  .reverse()
-                  .slice(
-                    searchResults.length < 5
-                      ? searchResults
-                      : searchResults.length - 5,
-                  )
-                  .reverse()
-            )
+            {showItems
+              .reverse()
+              .slice(showItems.length < 5 ? showItems : showItems.length - 5)
+              .reverse()
               .filter((todoItem) =>
                 currentState === ALL
                   ? todoItem
