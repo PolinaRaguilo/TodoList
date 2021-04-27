@@ -1,6 +1,24 @@
-import { Menu, MenuItem } from '@material-ui/core';
+import { makeStyles, Menu, MenuItem } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
-const MenuCard = ({ isOpen, onCloseMenu, openDelete, openState, onEdit }) => {
+const useStyles = makeStyles((theme) => ({
+  link: {
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'black',
+    },
+  },
+}));
+
+const MenuCard = ({
+  isOpen,
+  onCloseMenu,
+  openDelete,
+  openState,
+  onEdit,
+  todoItemInf,
+}) => {
+  const classes = useStyles();
   const onCloseHandler = () => {
     onCloseMenu();
   };
@@ -27,6 +45,11 @@ const MenuCard = ({ isOpen, onCloseMenu, openDelete, openState, onEdit }) => {
       <MenuItem onClick={onEditOpen}>Edit</MenuItem>
       <MenuItem onClick={deleteHandler}>Delete</MenuItem>
       <MenuItem onClick={stateHandler}>Set state</MenuItem>
+      <MenuItem onClick={onCloseHandler}>
+        <Link to={`/todos/${todoItemInf.id}`} className={classes.link}>
+          More information
+        </Link>
+      </MenuItem>
     </Menu>
   );
 };

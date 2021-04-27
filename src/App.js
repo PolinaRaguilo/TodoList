@@ -1,11 +1,17 @@
+import { BrowserRouter, Route } from 'react-router-dom';
+import TodoLayout from './layouts/TodoLayout';
+
 import MainPage from './components/main-page';
 import ThemeProvider from './styles/ThemeProvider';
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <MainPage />
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider>
+        <Route exact path="/" component={MainPage} />
+        <Route path="/todos/:id" component={TodoLayout} />
+      </ThemeProvider>
+    </BrowserRouter>
   );
 };
 export default App;
