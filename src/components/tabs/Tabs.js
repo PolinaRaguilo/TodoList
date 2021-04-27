@@ -60,11 +60,10 @@ const CustomTabs = () => {
   };
 
   const listTodos = (param) => {
-    let list;
-    forFilter
+    return forFilter
       .filter((item) => item.state === param)
       .map((it) => {
-        list = (
+        return (
           <ListItem key={nanoid(3)} button className={classes.listItem}>
             <Link to={`/todos/${it.id}`} className={classes.link}>
               <ListItemText className={classes.text}>{it.title}</ListItemText>
@@ -72,7 +71,6 @@ const CustomTabs = () => {
           </ListItem>
         );
       });
-    return list;
   };
 
   return (
