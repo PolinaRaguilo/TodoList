@@ -106,6 +106,9 @@ const MainPage = () => {
         ) : (
           <Container>
             {items
+              .reverse()
+              .slice(items.length < 5 ? items : items.length - 5)
+              .reverse()
               .filter((todoItem) =>
                 currentState === ALL
                   ? todoItem
