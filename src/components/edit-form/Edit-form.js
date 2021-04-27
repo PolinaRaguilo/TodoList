@@ -1,8 +1,9 @@
 import {
   Button,
   colors,
-  Container,
+  Box,
   makeStyles,
+  Modal,
   TextField,
   Typography,
 } from '@material-ui/core';
@@ -10,26 +11,22 @@ import axios from 'axios';
 import { useState } from 'react';
 import { DB_URL } from '../../config/constants';
 
-import ModalWrapper from '../modal/Modal';
-
 const useStyles = makeStyles({
-  root: {
-    textAlign: 'center',
-  },
+  root: {},
   button__add: {
     backgroundColor: colors.grey[900],
     color: colors.grey[100],
-    display: 'block',
-    margin: '0 auto',
+    width: 160,
     '&:hover': {
       backgroundColor: colors.grey[700],
     },
   },
   input: {
-    width: 'auto',
+    marginBottom: 32,
   },
-  flex__container: {
+  buttonContainer: {
     display: 'flex',
+    justifyContent: 'space-between',
   },
   modal__title: {
     fontSize: 20,
@@ -37,15 +34,26 @@ const useStyles = makeStyles({
     color: colors.grey[900],
     textAlign: 'center',
   },
+  paper: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    padding: '32px 24px',
+    width: '30%',
+    borderRadius: 10,
+    backgroundColor: colors.grey[100],
+  },
 });
 
 const EditForm = (props) => {
   const {
+    open,
     onClose,
+    handleEdit,
     title = '',
     description = '',
     id = null,
-    handleEdit,
     state,
     createdAt,
   } = props;
@@ -84,37 +92,42 @@ const EditForm = (props) => {
   };
 
   return (
-    <ModalWrapper isOpen close={onClose}>
-      <Typography className={classes.modal__title}>Edit information</Typography>
-      <form className={classes.root}>
-        <TextField
-          variant="outlined"
-          className={classes.input}
-          name="title"
-          value={editItem.title}
-          onChange={onHandleChange}
-        />
-        <TextField
-          variant="outlined"
-          className={classes.input}
-          name="description"
-          value={editItem.description}
-          onChange={onHandleChange}
-        />
-        <Container className={classes.flex__container}>
-          <Button
-            type="submit"
-            className={classes.button__add}
-            onClick={onUpdateHandler}
-          >
-            Save
-          </Button>
-          <Button className={classes.button__add} onClick={onClose}>
-            Cancel
-          </Button>
-        </Container>
-      </form>
-    </ModalWrapper>
+    <Modal open={open} onClose={onClose}>
+      <Box className={classes.paper}>
+        <Typography className={classes.modal__title}>
+          Edit information
+        </Typography>
+        <form className={classes.root}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            name="title"
+            value={editItem.title}
+            onChange={onHandleChange}
+          />
+          <TextField
+            fullWidth
+            variant="outlined"
+            name="description"
+            className={classes.input}
+            value={editItem.description}
+            onChange={onHandleChange}
+          />
+          <Box className={classes.buttonContainer}>
+            <Button
+              type="submit"
+              className={classes.button__add}
+              onClick={onUpdateHandler}
+            >
+              Save
+            </Button>
+            <Button className={classes.button__add} onClick={onClose}>
+              Cancel
+            </Button>
+          </Box>
+        </form>
+      </Box>
+    </Modal>
   );
 };
 

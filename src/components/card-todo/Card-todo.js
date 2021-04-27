@@ -8,18 +8,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   makeStyles,
-  Select,
   Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ModalWrapper from '../modal';
 import MenuCard from '../menu';
-import { nanoid } from 'nanoid';
 import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
+import SelectCustom from '../select/Select';
 import axios from 'axios';
+import DeleteModal from '../delete-modal';
 
 const useStyles = makeStyles({
   root: {
@@ -93,13 +91,13 @@ const useStyles = makeStyles({
   },
 });
 
-const CardTodo = ({ items, setItems, item, onEdit }) => {
+const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
   const classes = useStyles();
 
   const [menu, setMenu] = useState(null);
-  const [openDelete, setOpenDelete] = useState(false);
   const [openState, setOpenState] = useState(false);
-  const [stateSelect, setState] = useState('');
+  const [stateSelect, setState] = useState(item.state);
+  const [openDelete, setOpenDelete] = useState(false);
 
   const selectValues = [
     { value: TODO, text: TODO },
@@ -115,18 +113,6 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
     setMenu(null);
   };
 
-  const onChangeSelect = (e) => {
-    setState(e.target.value);
-  };
-
-  const onOpenHandlerDelete = () => {
-    setOpenDelete(true);
-  };
-
-  const onCloseHandlerDelete = () => {
-    setOpenDelete(false);
-  };
-
   const onOpenHandlerState = () => {
     setOpenState(true);
   };
@@ -138,6 +124,10 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
   const changeStateItem = () => {
     const newItems = items.map((todo) => {
       if (todo.id === item.id) {
+        axios.put(`${DB_URL}/items/${todo.id}`, {
+          ...todo,
+          state: stateSelect,
+        });
         return { ...todo, state: stateSelect };
       }
       return todo;
@@ -146,38 +136,33 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
     setOpenState(false);
   };
 
-  const onDelete = async () => {
-    try {
-      await axios.delete(`${DB_URL}/items/${item.id}`);
-      setItems([...items.filter((todo) => todo.id !== item.id)]);
-      setOpenDelete(false);
-    } catch (err) {
-      console.log(err);
-    }
+  const stateClasses = {
+    [TODO]: classes.todo,
+    [IN_PROGRESS]: classes.inProgress,
+    [DONE]: classes.done,
   };
 
-  const stateClass = () => {
-    let classState = classes.root;
-    switch (item.state) {
-      case TODO:
-        return classState + ` ${classes.todo}`;
-      case IN_PROGRESS:
-        return classState + ` ${classes.inProgress}`;
-      case DONE:
-        return classState + ` ${classes.done}`;
-      default:
-        return classState;
-    }
+  const onCloseHandlerDelete = () => {
+    setOpenDelete(false);
   };
-  const cardClass = stateClass();
+
+  const onOpenHandlerDelete = () => {
+    setOpenDelete(true);
+  };
 
   const handleEdit = () => {
     onEdit(item);
   };
 
+  const onHandleDelete = () => {
+    handleDelete(item.id);
+  };
   return (
     <>
-      <Card className={cardClass} variant="outlined">
+      <Card
+        className={`${stateClasses[item.state]} ${classes.root}`}
+        variant="outlined"
+      >
         <CardContent>
           <Typography variant="h5" component="h2">
             {item.title}
@@ -186,43 +171,28 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
             <Typography variant="body2" component="p">
               {item.description}
             </Typography>
-
             <MoreVertIcon className={classes.icon} onClick={handleClickMenu} />
           </Container>
         </CardContent>
       </Card>
-
-      {/* <ModalWrapper isOpen={editModal} close={setEditModal}>
-        <Typography className={classes.modal__title}>
-          Edit information
-        </Typography>
-        <EditForm
-          todo={item}
-          closeModal={handleEdit}
-          setItems={setItems}
-          items={items}
-        />
-      </ModalWrapper> */}
 
       <MenuCard
         isOpen={menu}
         onCloseMenu={handleCloseMenu}
         openDelete={onOpenHandlerDelete}
         openState={onOpenHandlerState}
+        todoItemInf={item}
         onEdit={handleEdit}
       />
 
-      <ModalWrapper isOpen={openDelete} close={onCloseHandlerDelete}>
-        <Typography className={classes.modal__title}>Are you sure?</Typography>
-        <Container className={classes.btn__wrapper}>
-          <Button className={classes.btn__modal} onClick={onDelete}>
-            Yes
-          </Button>
-          <Button className={classes.btn__modal} onClick={onCloseHandlerDelete}>
-            No
-          </Button>
-        </Container>
-      </ModalWrapper>
+      {openDelete && (
+        <DeleteModal
+          isOpenDelete={openDelete}
+          onClose={onCloseHandlerDelete}
+          handleDelete={onHandleDelete}
+          todoId={item.id}
+        />
+      )}
 
       <Dialog
         disableBackdropClick
@@ -232,19 +202,11 @@ const CardTodo = ({ items, setItems, item, onEdit }) => {
       >
         <DialogTitle>Select state </DialogTitle>
         <DialogContent>
-          <form className={classes.container}>
-            <FormControl className={classes.formControl}>
-              <Select native value={stateSelect} onChange={onChangeSelect}>
-                {selectValues.map((item) => {
-                  return (
-                    <option key={nanoid(2)} value={item.value}>
-                      {item.text}
-                    </option>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </form>
+          <SelectCustom
+            values={selectValues}
+            stateValue={stateSelect}
+            setStateValue={setState}
+          />
         </DialogContent>
         <DialogActions>
           <Button

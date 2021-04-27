@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import {
   CircularProgress,
   Container,
+  Box,
   makeStyles,
   Typography,
   MenuItem,
@@ -17,6 +17,7 @@ import Legend from '../legend';
 import { nanoid } from 'nanoid';
 
 import { useEdit } from '../../hooks';
+import useData from '../../hooks/useData';
 
 const useStyles = makeStyles(() => ({
   main__title: {
@@ -47,29 +48,15 @@ const stateValues = [
 const MainPage = () => {
   const classes = useStyles();
   const [currentState, setCurrentState] = useState('All');
+
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
-  const [items, setItems] = useState([]);
-  const [isLoading, setLoading] = useState(false);
 
-  const getData = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`${DB_URL}/items`);
-      setItems(response.data);
-      setLoading(false);
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const { items, isLoading, setItems } = useData(`${DB_URL}/items`);
 
   const handleChange = (event) => {
     setCurrentState(event.target.value);
   };
+
   const handleEditItems = (data) => {
     const editedItemIdx = items.map(({ id }) => id).indexOf(data.id);
 
@@ -80,8 +67,12 @@ const MainPage = () => {
     });
   };
 
+  const handleDeleteItems = (idDel) => {
+    setItems([...items.filter((todo) => todo.id !== idDel)]);
+  };
+
   return (
-    <Container>
+    <Box>
       <Container className={classes.wrapper}>
         <Typography className={classes.main__title}>ToDo List</Typography>
         <Select
@@ -119,6 +110,7 @@ const MainPage = () => {
                     setItems={setItems}
                     items={items}
                     onEdit={handleEdit}
+                    handleDelete={handleDeleteItems}
                   />
                 );
               })}
@@ -127,6 +119,7 @@ const MainPage = () => {
       </Container>
       <Legend />
       <AddForm addItem={setItems} />
+
       {isEdit && (
         <EditForm
           open={isEdit}
@@ -136,7 +129,7 @@ const MainPage = () => {
           handleEdit={handleEditItems}
         />
       )}
-    </Container>
+    </Box>
   );
 };
 
