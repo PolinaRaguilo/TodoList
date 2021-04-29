@@ -69,16 +69,7 @@ const MainPage = () => {
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
   const [searchText, setSearchText] = useState('');
 
-  const { items, isLoading, getData, setItems, searchResults } = useData(
-    `${DB_URL}/items`,
-  );
-
-  // useEffect(() => {
-  //   getData();
-  // }, [editData]);
-  // const [searchResults, setSearchResult] = useState(null);
-
-  console.log(searchResults);
+  const { items, isLoading, getData, setItems } = useData(`${DB_URL}/items`);
 
   const handleChange = (event) => {
     setCurrentState(event.target.value);
@@ -99,19 +90,19 @@ const MainPage = () => {
   };
 
   const onSearch = () => {
+    let results;
     if (searchText !== '') {
-      setItems(
-        searchResults.filter((item) =>
-          item.title.toLowerCase().includes(searchText.toLowerCase()),
-        ),
+      results = items.filter((item) =>
+        item.title.toLowerCase().includes(searchText.toLowerCase()),
       );
-    } else {
-      setItems(searchResults);
+
+      return results;
     }
+    return items;
   };
 
   const handleDeleteItems = (idDel) => {
-    setItems([...searchResults.filter((todo) => todo.id !== idDel)]);
+    setItems([...items.filter((todo) => todo.id !== idDel)]);
     getData();
   };
 
@@ -161,9 +152,7 @@ const MainPage = () => {
         ) : (
           <Container>
             {items
-              .reverse()
-              .slice(items.length < 5 ? items : items.length - 5)
-              .reverse()
+              .slice(-5)
               .filter((todoItem) =>
                 currentState === ALL
                   ? todoItem
