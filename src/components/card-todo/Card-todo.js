@@ -1,22 +1,22 @@
 import {
-  Button,
+  // Button,
   Card,
   CardContent,
   colors,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
+  // Dialog,
+  // DialogActions,
+  // DialogContent,
+  // DialogTitle,
   makeStyles,
   Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MenuCard from '../menu';
-import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
-import SelectCustom from '../select/Select';
-import axios from 'axios';
+import { DONE, IN_PROGRESS, TODO } from '../../config/constants';
+// import SelectCustom from '../select/Select';
+// import axios from 'axios';
 import DeleteModal from '../delete-modal';
 
 const useStyles = makeStyles({
@@ -94,19 +94,19 @@ const useStyles = makeStyles({
   },
 });
 
-const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
+const CardTodo = ({ item, onEdit, handleDelete, onEditState }) => {
   const classes = useStyles();
 
   const [menu, setMenu] = useState(null);
-  const [openState, setOpenState] = useState(false);
-  const [stateSelect, setState] = useState(item.state);
+  // const [openState, setOpenState] = useState(false);
+  // const [stateSelect, setState] = useState(item.state);
   const [openDelete, setOpenDelete] = useState(false);
 
-  const selectValues = [
-    { value: TODO, text: TODO },
-    { value: IN_PROGRESS, text: IN_PROGRESS },
-    { value: DONE, text: DONE },
-  ];
+  // const selectValues = [
+  //   { value: TODO, text: TODO },
+  //   { value: IN_PROGRESS, text: IN_PROGRESS },
+  //   { value: DONE, text: DONE },
+  // ];
 
   const handleClickMenu = (event) => {
     setMenu(event.currentTarget);
@@ -116,29 +116,29 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
     setMenu(null);
   };
 
-  const onOpenHandlerState = () => {
-    setOpenState(true);
-  };
+  // const onOpenHandlerState = () => {
+  //   setOpenState(true);
+  // };
 
-  const onCloseHandlerState = () => {
-    setOpenState(false);
-  };
+  // const onCloseHandlerState = () => {
+  //   setOpenState(false);
+  // };
 
-  const changeStateItem = () => {
-    const newItems = items.map((todo) => {
-      if (todo.id === item.id) {
-        axios.put(`${DB_URL}/items/${todo.id}`, {
-          ...todo,
-          state: stateSelect,
-        });
-        return { ...todo, state: stateSelect };
-      }
-      return todo;
-    });
-    setItems(newItems);
+  // const changeStateItem = () => {
+  //   const newItems = items.map((todo) => {
+  //     if (todo.id === item.id) {
+  //       axios.put(`${DB_URL}/items/${todo.id}`, {
+  //         ...todo,
+  //         state: stateSelect,
+  //       });
+  //       return { ...todo, state: stateSelect };
+  //     }
+  //     return todo;
+  //   });
+  //   setItems(newItems);
 
-    setOpenState(false);
-  };
+  //   setOpenState(false);
+  // };
 
   const stateClasses = {
     [TODO]: classes.todo,
@@ -156,6 +156,10 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
 
   const handleEdit = () => {
     onEdit(item);
+  };
+
+  const handleStateUpdate = () => {
+    onEditState(item);
   };
 
   const onHandleDelete = () => {
@@ -184,9 +188,9 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
         isOpen={menu}
         onCloseMenu={handleCloseMenu}
         openDelete={onOpenHandlerDelete}
-        openState={onOpenHandlerState}
-        todoItemInf={item}
+        onChangeState={handleStateUpdate}
         onEdit={handleEdit}
+        todoItemInf={item}
       />
 
       {openDelete && (
@@ -198,7 +202,7 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
         />
       )}
 
-      <Dialog
+      {/* <Dialog
         disableBackdropClick
         disableEscapeKeyDown
         open={openState}
@@ -227,7 +231,7 @@ const CardTodo = ({ items, setItems, item, onEdit, handleDelete }) => {
             Ok
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 };

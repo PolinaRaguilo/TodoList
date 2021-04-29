@@ -14,16 +14,12 @@ const MenuCard = ({
   isOpen,
   onCloseMenu,
   openDelete,
-  openState,
   onEdit,
   todoItemInf,
+  onChangeState,
 }) => {
   const classes = useStyles();
   const onCloseHandler = () => {
-    onCloseMenu();
-  };
-  const stateHandler = () => {
-    openState();
     onCloseMenu();
   };
   const deleteHandler = () => {
@@ -44,7 +40,7 @@ const MenuCard = ({
     >
       <MenuItem onClick={onEditOpen}>Edit</MenuItem>
       <MenuItem onClick={deleteHandler}>Delete</MenuItem>
-      <MenuItem onClick={stateHandler}>Set state</MenuItem>
+      <MenuItem onClick={onChangeState}>Set state</MenuItem>
       <MenuItem onClick={onCloseHandler}>
         <Link to={`/todos/${todoItemInf.id}`} className={classes.link}>
           More information

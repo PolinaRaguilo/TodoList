@@ -17,7 +17,7 @@ import AddForm from '../add-form';
 import EditForm from '../edit-form';
 import CardTodo from '../card-todo';
 import Legend from '../legend';
-import { nanoid } from 'nanoid';
+import StateModal from '../StateModal';
 
 import { useEdit } from '../../hooks';
 import useData from '../../hooks/useData';
@@ -66,10 +66,17 @@ const MainPage = () => {
   const classes = useStyles();
   const [currentState, setCurrentState] = useState('All');
 
-  const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
+  const {
+    handleEdit,
+    isEdit,
+    isEditState,
+    onCloseEdit,
+    editData,
+    handleEditState,
+  } = useEdit();
   const [searchText, setSearchText] = useState('');
-
   const { items, isLoading, getData, setItems } = useData(`${DB_URL}/items`);
+  const [searchData, setSearchData] = useState(null);
 
   const handleChange = (event) => {
     setCurrentState(event.target.value);
@@ -78,6 +85,15 @@ const MainPage = () => {
   const handleEditItems = (data) => {
     const editedItemIdx = items.map(({ id }) => id).indexOf(data.id);
 
+    setSearchData((prev) => {
+      if (!prev) {
+        return prev;
+      }
+      const editedItemIdx = prev.map(({ id }) => id).indexOf(data.id);
+      const temp = [...prev];
+      temp.splice(editedItemIdx, 1, data);
+      return temp;
+    });
     setItems((prev) => {
       const temp = [...prev];
       temp.splice(editedItemIdx, 1, data);
@@ -85,20 +101,21 @@ const MainPage = () => {
     });
   };
 
-  const onChangeSearchHandler = (e) => {
-    setSearchText(e.target.value);
+  const onChangeSearchHandler = (e, value) => {
+    setSearchText(value);
   };
 
   const onSearch = () => {
-    let results;
-    if (searchText !== '') {
-      results = items.filter((item) =>
-        item.title.toLowerCase().includes(searchText.toLowerCase()),
-      );
-
-      return results;
+    if (!searchText.trim()) {
+      setSearchData(items);
+      return;
     }
-    return items;
+
+    setSearchData(
+      items.filter((item) =>
+        item.title.toLowerCase().includes(searchText.toLowerCase()),
+      ),
+    );
   };
 
   const handleDeleteItems = (idDel) => {
@@ -118,7 +135,7 @@ const MainPage = () => {
         >
           {stateValues.map((item) => {
             return (
-              <MenuItem key={nanoid(2)} value={item.value}>
+              <MenuItem key={item.value} value={item.value}>
                 {item.text}
               </MenuItem>
             );
@@ -132,13 +149,13 @@ const MainPage = () => {
             className={classes.searchField}
             freeSolo
             options={items.map((option) => option.title)}
+            onInputChange={onChangeSearchHandler}
             renderInput={(params) => (
               <TextField
                 {...params}
                 placeholder="Search..."
                 margin="normal"
                 variant="outlined"
-                onChange={onChangeSearchHandler}
               />
             )}
           />
@@ -151,7 +168,7 @@ const MainPage = () => {
           <CircularProgress />
         ) : (
           <Container>
-            {items
+            {(searchData || items)
               .slice(-5)
               .filter((todoItem) =>
                 currentState === ALL
@@ -166,6 +183,7 @@ const MainPage = () => {
                     setItems={setItems}
                     items={items}
                     onEdit={handleEdit}
+                    onEditState={handleEditState}
                     handleDelete={handleDeleteItems}
                   />
                 );
@@ -175,6 +193,13 @@ const MainPage = () => {
       </Container>
       <Legend />
       <AddForm addItem={setItems} />
+      {isEditState && (
+        <StateModal
+          {...editData}
+          handleEdit={handleEditItems}
+          onClose={onCloseEdit}
+        />
+      )}
 
       {isEdit && (
         <EditForm
