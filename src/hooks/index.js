@@ -3,6 +3,7 @@ import { useReducer } from 'react';
 const initialState = {
   editData: {},
   isEdit: false,
+  isEditState: false,
 };
 
 const reducer = (state, { type, payload }) => {
@@ -10,6 +11,11 @@ const reducer = (state, { type, payload }) => {
     case 'edit':
       return {
         isEdit: true,
+        editData: payload,
+      };
+    case 'editState':
+      return {
+        isEditState: true,
         editData: payload,
       };
     case 'close':
@@ -20,8 +26,14 @@ const reducer = (state, { type, payload }) => {
 };
 
 export const useEdit = () => {
-  const [{ editData, isEdit }, dispatch] = useReducer(reducer, initialState);
+  const [{ editData, isEdit, isEditState }, dispatch] = useReducer(
+    reducer,
+    initialState,
+  );
 
+  const handleEditState = (payload) => {
+    dispatch({ type: 'editState', payload });
+  };
   const handleEdit = (payload) => {
     dispatch({ type: 'edit', payload });
   };
@@ -30,5 +42,12 @@ export const useEdit = () => {
     dispatch({ type: 'close' });
   };
 
-  return { handleEdit, isEdit, onCloseEdit: handleCloseEdit, editData };
+  return {
+    handleEditState,
+    handleEdit,
+    isEdit,
+    isEditState,
+    onCloseEdit: handleCloseEdit,
+    editData,
+  };
 };

@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { DB_URL, DONE, IN_PROGRESS, TODO } from '../../config/constants';
 import { useEdit } from '../../hooks';
 import useData from '../../hooks/useData';
@@ -67,7 +67,7 @@ const TodoPage = () => {
 
   useEffect(() => {
     getData(`${DB_URL}/items/${currentId}`);
-  }, [currentId]);
+  }, [getData, currentId]);
 
   const [openDelete, setOpenDelete] = useState(false);
   const { handleEdit, isEdit, onCloseEdit, editData } = useEdit();
