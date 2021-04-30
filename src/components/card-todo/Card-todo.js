@@ -1,13 +1,8 @@
 import {
-  // Button,
   Card,
   CardContent,
   colors,
   Container,
-  // Dialog,
-  // DialogActions,
-  // DialogContent,
-  // DialogTitle,
   makeStyles,
   Typography,
 } from '@material-ui/core';
@@ -15,8 +10,6 @@ import { useState } from 'react';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MenuCard from '../menu';
 import { DONE, IN_PROGRESS, TODO } from '../../config/constants';
-// import SelectCustom from '../select/Select';
-// import axios from 'axios';
 import DeleteModal from '../delete-modal';
 
 const useStyles = makeStyles({
@@ -98,15 +91,8 @@ const CardTodo = ({ item, onEdit, handleDelete, onEditState }) => {
   const classes = useStyles();
 
   const [menu, setMenu] = useState(null);
-  // const [openState, setOpenState] = useState(false);
-  // const [stateSelect, setState] = useState(item.state);
-  const [openDelete, setOpenDelete] = useState(false);
 
-  // const selectValues = [
-  //   { value: TODO, text: TODO },
-  //   { value: IN_PROGRESS, text: IN_PROGRESS },
-  //   { value: DONE, text: DONE },
-  // ];
+  const [openDelete, setOpenDelete] = useState(false);
 
   const handleClickMenu = (event) => {
     setMenu(event.currentTarget);
@@ -115,30 +101,6 @@ const CardTodo = ({ item, onEdit, handleDelete, onEditState }) => {
   const handleCloseMenu = () => {
     setMenu(null);
   };
-
-  // const onOpenHandlerState = () => {
-  //   setOpenState(true);
-  // };
-
-  // const onCloseHandlerState = () => {
-  //   setOpenState(false);
-  // };
-
-  // const changeStateItem = () => {
-  //   const newItems = items.map((todo) => {
-  //     if (todo.id === item.id) {
-  //       axios.put(`${DB_URL}/items/${todo.id}`, {
-  //         ...todo,
-  //         state: stateSelect,
-  //       });
-  //       return { ...todo, state: stateSelect };
-  //     }
-  //     return todo;
-  //   });
-  //   setItems(newItems);
-
-  //   setOpenState(false);
-  // };
 
   const stateClasses = {
     [TODO]: classes.todo,
@@ -201,37 +163,6 @@ const CardTodo = ({ item, onEdit, handleDelete, onEditState }) => {
           todoId={item.id}
         />
       )}
-
-      {/* <Dialog
-        disableBackdropClick
-        disableEscapeKeyDown
-        open={openState}
-        onClose={onCloseHandlerState}
-      >
-        <DialogTitle>Select state </DialogTitle>
-        <DialogContent>
-          <SelectCustom
-            className={classes.select}
-            values={selectValues}
-            stateValue={stateSelect}
-            setStateValue={setState}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={onCloseHandlerState}
-            className={`${classes.btn__change} ${classes.btn__modal}`}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={changeStateItem}
-            className={`${classes.btn__change} ${classes.btn__modal}`}
-          >
-            Ok
-          </Button>
-        </DialogActions>
-      </Dialog> */}
     </>
   );
 };
